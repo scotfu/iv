@@ -1,0 +1,6 @@
+# !/usr/bin/env python
+
+data = open('coordinates')
+out = open('cc')
+for line in data:
+    out.writeline(str([c  if c for c in line))

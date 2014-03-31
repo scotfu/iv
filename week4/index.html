@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+ <head>
+ <style type="text/css">
+ .red {
+ fill: red;
+ }
+ .blue {
+ fill: blue;
+ }
+ .lineChart {
+ stroke: red;
+ stroke-width: 3px;
+ fill: none;
+ }
+ .axis path,
+ .axis line {
+ fill: none;
+ stroke: black;
+ shape-rendering: crispEdges;
+ }
+ .axis text {
+ fill: none;
+ stroke: black;
+ shape-rendering: crispEdges;
+ font-family: sans-serif;
+ font-size: 11px;
+ }
+ #tooltip {
+ position: absolute;
+ width: 200px;
+ height: auto;
+ padding: 10px;
+ background-color: white;
+ -webkit-border-radius: 10px;
+ -moz-border-radius: 10px;
+ border-radius: 10px;
+ -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+ -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+ box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+ pointer-events: none;
+ }
+
+ #tooltip.hidden {
+ display: none;
+ }
+
+ #tooltip p {
+ margin: 0;
+ font-family: sans-serif;
+ font-size: 16px;
+ line-height: 20px;
+ }
+ </style>
+ <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+ <script type="text/javascript">
+ function buildChart() {
+ //document.getElementById("target").innerHTML = "";
+ d3.select("svg").remove();
+
+ var d = document.getElementById("data").value;
+ var ar = d.split(',');
+
+ //alert(d3.max(ar));
+
+ var padding = 50;
+ var w = 400;
+ var h = 400;
+
+
+
+ var xScale = d3.scale.ordinal()
+ .domain(d3.range(ar.length))
+ .rangeRoundBands([padding, (w-padding)], 0.05);
+
+
+ var yScale = d3.scale.linear()
+ .domain([0, d3.max(ar, function (d) {return parseInt(d)}) ])
+ .range([padding, (h-padding)]);
+ //alert( );
+ var yScale2 = d3.scale.linear()
+ .domain([0, d3.max(ar, function (d) {return parseInt(d)}) ])
+ .range([(h-padding), padding]);
+
+
+ var svg = d3.select("#target")
+ .append("svg")
+ .attr("width", w)
+ .attr("height", 400);
+
+ var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+ var yAxis = d3.svg.axis().scale(yScale2).orient("right");
+ svg.append("g").attr("class", "axis").call(xAxis);
+ svg.append("g").attr("class", "axis").call(yAxis);
+
+ svg.selectAll("rect")
+ .data(ar).enter()
+ .append("rect")
+ .attr("width", xScale.rangeBand())
+ .attr("height", function(d) {return yScale(d) - padding;})
+ .attr("x", function(d,i) {return xScale(i);})
+ .attr("y", function(d) {return h - yScale(d) ;})
+ .on("mouseover", function(d) {
+ var xPos = parseFloat(d3.select(this).attr("x"))/2 + xScale.rangeBand()/2;
+ var yPos = parseFloat(d3.select(this).attr("y"))/2 + h/2;
+
+ d3.select("#tooltip")
+ .style("left", xPos + "px")
+ .style("top", yPos + "px")
+ .select("#value")
+ .text(d);
+
+ d3.select("#tooltip").classed("hidden", false);
+
+ })
+ .on("mouseout", function(d) {
+ d3.select("#tooltip").classed("hidden", true);
+ });
+ }
+ 
+
+ 
+
+ </script>
+ </head>
+
+<body>
+
+<input type="text" id="data" name="data" length="100" />
+<input type="button" value="Parse" onClick="javascript:buildChart()" />
+<div id="target">
+ 
+</div>
+
+<div id="tooltip" class="hidden">
+ <p><strong id="value"> </strong></p>
+</div>
+
+</body>
+</html>
