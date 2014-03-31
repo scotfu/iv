@@ -27,7 +27,7 @@ seed = np.random.RandomState(seed=3)
 #X_true = seed.randint(0, 20, 2 * n_samples).astype(np.float)
 #print X_true
 print len(my_data)
-X_true = my_data[:30]
+X_true = my_data[:8000]
 #X_true = X_true.reshape((n_samples, 2))
 #print X_true
 # Center the data
@@ -41,15 +41,15 @@ similarities = euclidean_distances(X_true)
 #noise[np.arange(noise.shape[0]), np.arange(noise.shape[0])] = 0
 #similarities += noise
 
-#mds = manifold.MDS(n_components=2, max_iter=3000, eps=1e-9, random_state=seed,
-#                   dissimilarity="precomputed", n_jobs=-1)
-#pos = mds.fit(similarities).embedding_
+mds = manifold.MDS(n_components=2, max_iter=3000, eps=1e-9, random_state=seed,
+                   dissimilarity="precomputed", n_jobs=-1)
+pos = mds.fit(similarities).embedding_
 
 
-#nmds = manifold.MDS(n_components=2, metric=False, max_iter=3000, eps=1e-12,
-#                    dissimilarity="precomputed", random_state=seed, n_jobs=-1,
-#                    n_init=1)
-#npos = nmds.fit_transform(similarities, init=pos)
+nmds = manifold.MDS(n_components=2, metric=False, max_iter=3000, eps=1e-12,
+                    dissimilarity="precomputed", random_state=seed, n_jobs=-1,
+                    n_init=1)
+npos = nmds.fit_transform(similarities, init=pos)
 # Rescale the data
 #pos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((pos ** 2).sum())
 #npos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((npos ** 2).sum())
@@ -58,22 +58,32 @@ similarities = euclidean_distances(X_true)
 clf = PCA(n_components=2)
 X_true = clf.fit_transform(X_true)
 
-#pos = clf.fit_transform(pos)
+pos = clf.fit_transform(pos)
 
-#npos = clf.fit_transform(npos)
+npos = clf.fit_transform(npos)
 
 
 out = open('tmp_data','w')
+out1 = open('tmp_data1','w')
+out2 = open('tmp_data2','w')
 for x in X_true:
     out.write(str(x[0])+','+str(x[1])+'\n')
+out.close()
+for x in pos:
+    out1.write(str(x[0])+','+str(x[1])+'\n')
+out.close()
+for x in npos:
+    out2.write(str(x[0])+','+str(x[1])+'\n')
 out.close()
 
 fig = plt.figure(1)
 ax = plt.axes([0., 0., 1., 1.])
 print X_true
+print pos
+print npos
 plt.scatter(X_true[:, 0], X_true[:, 1], c='r', s=20)
-#plt.scatter(pos[:, 0], pos[:, 1], s=20, c='g')
-#plt.scatter(npos[:, 0], npos[:, 1], s=20, c='b')
+plt.scatter(pos[:, 0], pos[:, 1], s=20, c='g')
+plt.scatter(npos[:, 0], npos[:, 1], s=20, c='b')
 plt.legend(('True position', 'MDS', 'NMDS'), loc='best')
 
 #similarities = similarities.max() / similarities * 100
