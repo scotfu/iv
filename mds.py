@@ -27,7 +27,7 @@ seed = np.random.RandomState(seed=3)
 #X_true = seed.randint(0, 20, 2 * n_samples).astype(np.float)
 #print X_true
 print len(my_data)
-X_true = my_data[:8000]
+X_true = my_data[:1000]
 #X_true = X_true.reshape((n_samples, 2))
 #print X_true
 # Center the data

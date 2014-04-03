@@ -12,8 +12,11 @@ from sklearn.metrics import euclidean_distances
 from sklearn.decomposition import PCA
 import csv
 
+import sys
+
+file_name = sys.argv[1]
 X_true = []
-t_data = open('tmp_data')
+t_data = open(file_name)
 for data in t_data:
     X_true.append(list(data[:-1].split(',')))
 #X_true.reverse()

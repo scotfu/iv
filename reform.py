@@ -4,8 +4,8 @@ import os
 import csv
 BUFFER_SIZE = 100
 
-def transform():
-    c_file = open('MYWorld_votes_all.csv')
+def transform(file_name):
+    c_file = open(file_name)
     out_file = open('data','wr')
     reader = csv.reader(c_file)
     h = reader.next()
@@ -42,4 +42,6 @@ def transform_pri_to_bits(six):
     
 
 if __name__ == '__main__':
-    transform()
+    import sys
+    file_name = sys.argv[1]
+    transform(file_name)
