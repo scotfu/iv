@@ -1,7 +1,8 @@
 # Author: Nelle Varoquaux <nelle.varoquaux@gmail.com>
 # Licence: BSD
+import csv
+import sys
 
-print(__doc__)
 import numpy as np
 
 from matplotlib import pyplot as plt
@@ -10,11 +11,11 @@ from matplotlib.collections import LineCollection
 from sklearn import manifold
 from sklearn.metrics import euclidean_distances
 from sklearn.decomposition import PCA
-import csv
 
+file_name = sys.argv[1]
 
 my_data=[]
-csv_data = open('coor.csv')
+csv_data = open(file_name)
 reader = csv.reader(csv_data)
 for line in reader:
     my_data.append([int(c) for c in line])
@@ -82,8 +83,8 @@ print X_true
 print pos
 print npos
 plt.scatter(X_true[:, 0], X_true[:, 1], c='r', s=20)
-plt.scatter(pos[:, 0], pos[:, 1], s=20, c='g')
-plt.scatter(npos[:, 0], npos[:, 1], s=20, c='b')
+#plt.scatter(pos[:, 0], pos[:, 1], s=20, c='g')
+#plt.scatter(npos[:, 0], npos[:, 1], s=20, c='b')
 plt.legend(('True position', 'MDS', 'NMDS'), loc='best')
 
 #similarities = similarities.max() / similarities * 100

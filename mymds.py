@@ -8,12 +8,12 @@ from sklearn import manifold
 from sklearn.metrics import euclidean_distances
 from sklearn.decomposition import PCA
 import csv
+import sys
 
-
-
+file_name = sys.argv[1]
 seed = np.random.RandomState(seed=3)
 my_data=[]
-data = open('coor.csv')
+data = open(file_name)
 reader = csv.reader(data)
 for line in reader:
     my_data.append([int(c) for c in line])
@@ -22,7 +22,7 @@ data.close()
 
 #  start small dont take all the data, 
 #  its about 200k records
-subset = my_data[:100]
+subset = my_data[:1000]
 similarities = euclidean_distances(subset)
 
 mds = manifold.MDS(n_components=2, max_iter=3000, eps=1e-9, 
@@ -38,8 +38,8 @@ npos = nmds.fit_transform(similarities, init=pos)
 
 
 clf = PCA(n_components=2)
-#X_true = clf.fit_transform(my_data)
-#pos = clf.fit_transform(pos)
+X_true = clf.fit_transform(my_data)
+pos = clf.fit_transform(pos)
 npos = clf.fit_transform(npos)
 
 out3 = open('nposdata','w')
