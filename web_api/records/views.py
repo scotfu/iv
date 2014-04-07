@@ -53,8 +53,7 @@ def record_search(request):
                                                           kwargs={'b_id': r.bit_string.bit_string})
                                            },
                                        })
-    print 1111
-    print response_data
+
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
