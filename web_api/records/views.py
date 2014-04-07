@@ -46,10 +46,15 @@ def record_search(request):
                              'country': {'id': r.country, 'name': r.get_country_display() },
                              'education': {'level': r.education, 'name': r.get_education_display()},
                              'bitstring': {'value': r.bit_string.bit_string,
+                                           'pca': r.bit_string.pca,
+                                           'mds': r.bit_string.mds,
+                                           'nmds': r.bit_string.nmds,
                                            'url': reverse('bit_string',
                                                           kwargs={'b_id': r.bit_string.bit_string})
                                            },
                                        })
+    print 1111
+    print response_data
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
@@ -61,6 +66,9 @@ def record(request, record_id):
                              'country': {'id': r.country, 'name': r.get_country_display() },
                              'education': {'level': r.education, 'name': r.get_education_display()},
                              'bitstring': {'value': r.bit_string.bit_string,
+                                           'pca': r.bit_string.pca,
+                                           'mds': r.bit_string.mds,
+                                           'nmds': r.bit_string.nmds,
                                            'url': reverse('bit_string',
                                                           kwargs={'b_id': r.bit_string.bit_string})
                                            },
