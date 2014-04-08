@@ -71,7 +71,7 @@ def record_search_aggregation(request):
         elif gender == 'Female':
             gender = '2'
         if gender:
-            kwargs['gender'] = gender
+            kwargs['record__gender'] = gender
         country = request.GET.getlist('country')
         education = request.GET.get('education')
         if education:

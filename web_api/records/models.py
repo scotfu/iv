@@ -24,7 +24,7 @@ class Record(models.Model):
     country = models.CharField(max_length=100,choices=COUNTRY)
 
     def __unicode__(self):
-        return self.bit_string
+        return self.bit_string.bit_string
 
     class Meta:
         verbose_name_plural = "Records"
