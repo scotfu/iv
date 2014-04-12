@@ -10,6 +10,29 @@ from django.db.models import Count
 from .models import Record,BitString
 
 
+def json_response(func):
+    """
+    A decorator thats takes a view response and turns it
+    into json. If a callback is added through GET or POST
+    the response is JSONP.
+    """
+    def decorator(request, *args, **kwargs):
+        objects = func(request, *args, **kwargs)
+        if isinstance(objects, HttpResponse):
+            return objects
+        try:
+            data = json.dumps(objects)
+            if 'callback' in request.REQUEST:
+                # a jsonp response!
+                data = '%s(%s);' % (request.REQUEST['callback'], data)
+                return HttpResponse(data, "text/javascript")
+        except:
+            data = json.dumps(str(objects))
+
+        return HttpResponse(data, "application/json")
+    
+    return decorator
+
 def record_search(request):
     if request.method =='GET':
         start_age = request.GET.get('start',1)
@@ -58,7 +81,7 @@ def record_search(request):
 
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-
+@json_response
 def record_search_aggregation(request):
     if request.method =='GET':
         start_age = request.GET.get('start',1)
@@ -80,7 +103,7 @@ def record_search_aggregation(request):
             kwargs['record__country__in'] = country
 
     result = BitString.objects.filter(record__age__range=(start_age,end_age),**kwargs).annotate(num=Count('record'))
-    objects  = Paginator(result,1000)
+    objects  = Paginator(result,2000)
     response_data = {}
     response_data['result'] = 'success'
     response_data['p_num'] = objects.num_pages
@@ -101,7 +124,7 @@ def record_search_aggregation(request):
                                            },
                              'count': r.num,
                              })
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+    return response_data
 
 
 def record(request, record_id):
@@ -133,3 +156,25 @@ def bitstring(request, b_id):
 
 def bit_string_search(request):
     pass
+
+@json_response
+def test(request):
+    data = {"data": {"bitstrings": [{"count": 4221, "bitstring": {"origin": "0000111001010001", "mds": "0.0397458999459,0.183315153933", "pca": "-0.0792982586445,0.159979700251", "nmds": "0.0165809915404,0.0509848185975"}}]}}
+    t = {
+    "firstName": "John",
+    "lastName": "Smith",
+    "isAlive": True,
+    "age": 25,
+    "height_cm": 167.64,
+    "address": {
+        "streetAddress": "21 2nd Street",
+        "city": "New York",
+        "state": "NY",
+        "postalCode": "10021-3100"
+    },
+    "phoneNumbers": [
+        { "type": "home", "number": "212 555-1234" },
+        { "type": "fax",  "number": "646 555-4567" }
+    ]
+}
+    return t
