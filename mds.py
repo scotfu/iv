@@ -63,10 +63,10 @@ pos = clf.fit_transform(pos)
 
 npos = clf.fit_transform(npos)
 
-
-out = open('tmp_data','w')
-out1 = open('tmp_data1','w')
-out2 = open('tmp_data2','w')
+in_c = open('data_count_by_region.1000')
+out = open('rtmp_data','w')
+out1 = open('rtmp_data1','w')
+out2 = open('rtmp_data2','w')
 for x in X_true:
     out.write(str(x[0])+','+str(x[1])+'\n')
 out.close()
