@@ -37,20 +37,21 @@ def record_search(request):
     if request.method =='GET':
         start_age = request.GET.get('start',1)
         end_age = request.GET.get('end',120)
-        gender = request.GET.get('gender')
+        gender = request.GET.get('gender','0')
         page = request.GET.get('p',1)
         kwargs = {}
         if gender == 'Male':
             gender = '1'
         elif gender == 'Female':
             gender = '2'
-        if gender != 0:
+        if gender != '0':
             kwargs['gender'] = gender
-        country = request.GET.getlist('country')
-        education = request.GET.get('education')
-        if education != 0:
+        country = request.GET.getlist('country','0')
+        education = request.GET.get('education','0')
+        if education != '0':
             kwargs['education'] = education
-        if country != 0:
+        print country
+        if country != '0':
             kwargs['country__in'] = country
 
     result = Record.objects.filter(age__range=(start_age,end_age),**kwargs)
@@ -94,13 +95,12 @@ def record_search_aggregation(request):
         elif gender == 'Female':
             gender = '2'
         if gender != '0':
-            print gender
             kwargs['record__gender'] = gender
         country = request.GET.getlist('country','0')
         education = request.GET.get('education','0')
         if education != '0':
             kwargs['record__education'] = education
-        if country != ['0']:
+        if country != '0':
             kwargs['record__country__in'] = country
     print kwargs
     result = BitString.objects.filter(record__age__range=(start_age,end_age),**kwargs).annotate(num=Count('record'))
