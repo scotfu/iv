@@ -5,8 +5,6 @@ import sys
 
 import numpy as np
 
-from matplotlib import pyplot as plt
-from matplotlib.collections import LineCollection
 
 from sklearn import manifold
 from sklearn.metrics import euclidean_distances
@@ -28,7 +26,7 @@ seed = np.random.RandomState(seed=3)
 #X_true = seed.randint(0, 20, 2 * n_samples).astype(np.float)
 #print X_true
 print len(my_data)
-X_true = my_data[:1000]
+X_true = my_data[:10]
 #X_true = X_true.reshape((n_samples, 2))
 #print X_true
 # Center the data
@@ -77,15 +75,15 @@ for x in npos:
     out2.write(str(x[0])+','+str(x[1])+'\n')
 out.close()
 
-fig = plt.figure(1)
-ax = plt.axes([0., 0., 1., 1.])
+#fig = plt.figure(1)
+#ax = plt.axes([0., 0., 1., 1.])
 print X_true
 print pos
 print npos
-plt.scatter(X_true[:, 0], X_true[:, 1], c='r', s=20)
+#plt.scatter(X_true[:, 0], X_true[:, 1], c='r', s=20)
 #plt.scatter(pos[:, 0], pos[:, 1], s=20, c='g')
 #plt.scatter(npos[:, 0], npos[:, 1], s=20, c='b')
-plt.legend(('True position', 'MDS', 'NMDS'), loc='best')
+#plt.legend(('True position', 'MDS', 'NMDS'), loc='best')
 
 #similarities = similarities.max() / similarities * 100
 #similarities[np.isinf(similarities)] = 0
@@ -104,5 +102,5 @@ plt.legend(('True position', 'MDS', 'NMDS'), loc='best')
 #lc.set_linewidths(0.5 * np.ones(len(segments)))
 #ax.add_collection(lc)
 
-plt.show()
+#plt.show()
 
