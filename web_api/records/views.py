@@ -33,12 +33,14 @@ def json_response(func):
     
     return decorator
 
+@json_response
 def record_search(request):
     if request.method =='GET':
         start_age = request.GET.get('start',1)
         end_age = request.GET.get('end',120)
         gender = request.GET.get('gender','0')
         page = request.GET.get('p',1)
+        bit_string = request.GET.get('bit',None)
         kwargs = {}
         if gender == 'Male':
             gender = '1'
@@ -53,9 +55,11 @@ def record_search(request):
         print country
         if country != '0':
             kwargs['country__in'] = country
+        if bit_string:
+            kwargs['bit_string__bit_string'] = bit_string
 
     result = Record.objects.filter(age__range=(start_age,end_age),**kwargs)
-    objects  = Paginator(result,100)
+    objects  = Paginator(result,5000)
     response_data = {}
     response_data['result'] = 'success'
     response_data['p_num'] = objects.num_pages
