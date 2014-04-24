@@ -84,7 +84,7 @@ def record_search(request):
                                            },
                                        })
 
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+    return response_data
 
 @json_response
 def record_search_aggregation(request):
