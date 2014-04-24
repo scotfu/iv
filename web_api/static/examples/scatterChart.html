@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<link href="../src/nv.d3.css" rel="stylesheet" type="text/css">
+
+<style>
+
+body {
+  overflow-y:scroll;
+  margin: 0;
+  padding: 0;
+}
+
+svg {
+  overflow: hidden;
+}
+
+div {
+  border: 0;
+  margin: 0;
+}
+
+/*
+#offsetDiv {
+  margin-left: 100px;
+  margin-top: 100px;
+}
+*/
+
+
+#test1 {
+  margin: 0;
+}
+
+#test1 svg {
+  height: auto;
+}
+
+</style>
+
+<body>
+
+<div id="offsetDiv">
+  <div id="test1" class='with-3d-shadow with-transitions'>
+    <svg id="svg1"></svg>
+    <svg id="svg2"</svg>
+  </div>
+</div>
+
+<script src="../lib/d3.v3.js"></script>
+<!--<script src="../lib/fisheye.js"></script>-->
+<script src="../nv.d3.js"></script>
+
+<script>
+
+var chartB;
+nv.addGraph(function() {
+  chartB = nv.models.scatterChart()
+                .showDistX(false)
+                .showDistY(false)
+                .useVoronoi(false)
+                .transitionDuration(300)
+                ;
+
+  chartB.xAxis.tickFormat(d3.format('.02f'));
+  chartB.yAxis.tickFormat(d3.format('.02f'));
+  chartB.tooltipContent(function(key) {
+      return key ;
+  });
+
+  d3.select('#svg1')
+      .datum(getDataB())
+      .call(chartB);
+
+  nv.utils.windowResize(chartB.update);
+
+  chartB.dispatch.on('stateChange', function(e) { ('New State:', JSON.stringify(e)); });
+
+  return chartB;
+});
+
+
+
+
+//Format A
+var chart;
+nv.addGraph(function() {
+  chart = nv.models.scatterChart()
+                .showDistX(false)
+                .showDistY(false)
+                .useVoronoi(false)
+                .color(d3.scale.category10().range())
+                .transitionDuration(300)
+                ;
+
+  chart.xAxis.tickFormat(d3.format('.02f'));
+  chart.yAxis.tickFormat(d3.format('.02f'));
+  chart.tooltipContent(function(key) {
+      return key ;
+  });
+
+  d3.select('#svg2')
+      .datum(getData())
+      .call(chart);
+
+  nv.utils.windowResize(chart.update);
+
+  chart.dispatch.on('stateChange', function(e) { ('New State:', JSON.stringify(e)); });
+
+  return chart;
+});
+
+
+function getData() { //# groups,# points per group
+  var data = [];
+  var sr = [
+
+  [0.724598671025,-0.285578747804,'NY',20],
+[-0.475536740854,-0.541189647734,'NJ',40],
+[-0.0184810853157,-0.0670381107538,'NJ',23],
+[0.46424781452,0.0853228780841,'NY',32]
+
+      ];
+
+
+  for (i = 0; i < sr.length; i++) {
+    var gr = sr[i][2];
+    var newGroup = true;
+    for (j = 0; j < data.length; j++) {
+      if (gr == data[j].key) {
+          newGroup = false;        
+      }
+    }
+    if (newGroup) {
+      data.push({
+        key: gr,
+        values: []
+      });
+    }
+    //console.log(data);
+    for (u = 0; u < data.length; u++) {
+      if (gr == data[u].key) {
+            data[u].values.push({
+            x: sr[i][0], 
+            y: sr[i][1], 
+            size: sr[i][3], 
+            shape: 'circle'
+          });
+      }
+    }
+    
+  }
+
+  return data;
+}
+
+function getDataB() { //# groups,# points per group
+  var data = [];
+  var sr = [
+
+  [0.724598671025,-0.285578747804,'NY',20],
+[-0.375536740854,-0.541189647734,'NJ',40],
+[-0.2184810853157,-0.2670381107538,'NJ',23],
+[0.16424781452,0.1853228780841,'NY',32],
+[0.56424781452,0.9853228780841,'NY',32],
+[0.56424781452,0.5853228780841,'NY',32],
+
+
+      ];
+
+
+  for (i = 0; i < sr.length; i++) {
+    var gr = sr[i][2];
+    var newGroup = true;
+    for (j = 0; j < data.length; j++) {
+      if (gr == data[j].key) {
+          newGroup = false;        
+      }
+    }
+    if (newGroup) {
+      data.push({
+        key: gr,
+        values: []
+      });
+    }
+    //console.log(data);
+    for (u = 0; u < data.length; u++) {
+      if (gr == data[u].key) {
+            data[u].values.push({
+            x: sr[i][0], 
+            y: sr[i][1], 
+            size: sr[i][3], 
+            shape: 'circle'
+          });
+      }
+    }
+    
+  }
+  return data;
+}
+
+
+</script>

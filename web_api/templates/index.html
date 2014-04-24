@@ -264,7 +264,7 @@ function showDetailTable(data, myPage) {
   for (i = 0; i < source.length; i++) {
      tb = tb + "<tr><td>" + source[i]["gender"] + "</td>"
                             + "<td>"     + source[i]["age"] + "</td>"
-                            + "<td>"     + source[i]["education"].level + "</td>"
+                            + "<td>"     + source[i]["education"].name + "</td>"
                             + "<td>"     + source[i]["country"].name + "</td>"
                             + "</tr>";
   }
@@ -287,7 +287,7 @@ function getData(source) { //# groups,# points per group
 
   for (i = 0; i < objList.length; i++) {
     var origin = objList[i]["bitstring"]["origin"];
-    var str = objList[i]["bitstring"]["pca"];
+    var str = objList[i]["bitstring"]["nmds"];
     data[0].values.push({
       x: parseFloat(str.split(",")[0]),
       y: parseFloat(str.split(",")[1]),
