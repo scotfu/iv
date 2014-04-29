@@ -52,8 +52,8 @@ def record_search(request):
         education = request.GET.get('education','0')
         if education != '0':
             kwargs['education'] = education
-        print country
-        if country != '0':
+        print country,1111111111111
+        if country != ['0']:
             kwargs['country__in'] = country
         if bit_string:
             kwargs['bit_string__bit_string'] = bit_string
@@ -100,13 +100,13 @@ def record_search_aggregation(request):
             gender = '2'
         if gender != '0':
             kwargs['record__gender'] = gender
-        country = request.GET.getlist('country','0')
+        country = request.GET.getlist('country',None)
         education = request.GET.get('education','0')
         if education != '0':
             kwargs['record__education'] = education
-        if country != '0':
+        if country != ['0']:
             kwargs['record__country__in'] = country
-    print kwargs
+    print kwargs,country
     result = BitString.objects.filter(record__age__range=(start_age,end_age),**kwargs).annotate(num=Count('record'))
     objects  = Paginator(result,2000)
     response_data = {}
