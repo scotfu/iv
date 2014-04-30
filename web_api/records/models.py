@@ -22,7 +22,8 @@ class Record(models.Model):
     education = models.CharField(max_length=100,choices=EDUCATION)
     bit_string = models.ForeignKey('BitString')
     country = models.CharField(max_length=100,choices=COUNTRY)
-
+    suggested_priority = models.TextField()
+    
     def __unicode__(self):
         return self.bit_string.bit_string
 
