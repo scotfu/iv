@@ -79,6 +79,7 @@ def record_search(request):
                                            'pca': r.bit_string.pca,
                                            'mds': r.bit_string.mds,
                                            'nmds': r.bit_string.nmds,
+                                           'sugg': r.suggested_priority,
                                            'url': reverse('bit_string',
                                                           kwargs={'b_id': r.bit_string.bit_string})
                                            },

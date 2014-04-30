@@ -36,7 +36,7 @@ def bit_init():
 
 
 def record_init():
-    f = open('data').readlines()
+    f = open('raw_data').readlines()
     f.pop(0)
     r_list=[]
     lineno = 0
@@ -49,6 +49,7 @@ def record_init():
             record.age = int(line[2])
             record.gender = int(line[3])
             record.education = int(line[4])
+            record.suggested_priority = line[6]
             b = BitString.objects.filter(bit_string=line[5])
             if b:
                 record.bit_string = b[0]
