@@ -132,6 +132,96 @@ def record_search_aggregation(request):
     return response_data
 
 
+@json_response
+def record_search_group(request):
+    if request.method =='GET':
+        start_age = request.GET.get('start',1)
+        end_age = request.GET.get('end',120)
+        gender = request.GET.get('gender','0')
+        page = request.GET.get('p',1)
+        kwargs = {}
+        if gender == 'Male':
+            gender = '1'
+        elif gender == 'Female':
+            gender = '2'
+        if gender != '0':
+            kwargs['record__gender'] = gender
+        country = request.GET.getlist('country',None)
+        education = request.GET.get('education','0')
+        if education != '0':
+            kwargs['record__education'] = education
+        if country != ['0']:
+            kwargs['record__country__in'] = country
+    response_data = {}
+    response_data['result'] = 'success'
+    response_data['data'] = {}
+            
+    if gender == '0':
+        result_male = BitString.objects.filter(record__age__range=(start_age,end_age),record__gender=1,**kwargs).values('bit_string','nmds').annotate(num=Count('record'))
+        result_female = BitString.objects.filter(record__age__range=(start_age,end_age),record__gender=2,**kwargs).values('bit_string','nmds').annotate(num=Count('record'))
+        response_data['data']['female']=[]
+        response_data['data']['male']=[]
+        for r in result_male:
+            response_data['data']['male'].append({
+                'bitstring': {'origin': r["bit_string"],
+                              'nmds': r["nmds"],
+                                           },
+                             'count': r["num"],
+                             })
+
+        for r in result_female:
+            response_data['data']['female'].append({
+                'bitstring': {'origin': r["bit_string"],
+                              'nmds': r["nmds"],
+                                           },
+                             'count': r["num"],
+                             })
+    
+        return response_data
+
+
+    if education == '0':
+        result1 = BitString.objects.filter(record__age__range=(start_age,end_age),record__education=1,**kwargs).values('record__gender','bit_string','nmds').annotate(num=Count('record'))
+        result2 = BitString.objects.filter(record__age__range=(start_age,end_age),record__education=2,**kwargs).values('record__gender','bit_string','nmds').annotate(num=Count('record'))
+        result3 = BitString.objects.filter(record__age__range=(start_age,end_age),record__education=3,**kwargs).values('record__gender','bit_string','nmds').annotate(num=Count('record'))
+        result4 = BitString.objects.filter(record__age__range=(start_age,end_age),record__education=4,**kwargs).values('record__gender','bit_string','nmds').annotate(num=Count('record'))
+        response_data['data']['edu1']=[]
+        response_data['data']['edu2']=[]
+        response_data['data']['edu3']=[]
+        response_data['data']['edu4']=[]
+        for r in result1:
+            response_data['data']['edu1'].append({
+                'bitstring': {'origin': r["bit_string"],
+                              'nmds': r["nmds"],
+                                           },
+                             'count': r["num"],
+                             })
+        for r in result2:
+            response_data['data']['edu2'].append({
+                'bitstring': {'origin': r["bit_string"],
+                              'nmds': r["nmds"],
+                                           },
+                             'count': r["num"],
+                             })
+        for r in result3:
+            response_data['data']['edu3'].append({
+                'bitstring': {'origin': r["bit_string"],
+                              'nmds': r["nmds"],
+                                           },
+                             'count': r["num"],
+                             })
+        for r in result4:
+            response_data['data']['edu4'].append({
+                'bitstring': {'origin': r["bit_string"],
+                              'nmds': r["nmds"],
+                                           },
+                             'count': r["num"],
+                             })
+
+        return response_data
+        
+
+
 def record(request, record_id):
     r = Record.objects.get(id=record_id)
     response_data = {}
