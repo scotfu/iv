@@ -52,7 +52,6 @@ def record_search(request):
         education = request.GET.get('education','0')
         if education != '0':
             kwargs['education'] = education
-        print country,1111111111111
         if country != ['0']:
             kwargs['country__in'] = country
         if bit_string:
@@ -138,26 +137,28 @@ def record_search_group(request):
     if request.method =='GET':
         start_age = request.GET.get('start',1)
         end_age = request.GET.get('end',120)
-        gender = request.GET.get('gender','0')
-        page = request.GET.get('p',1)
+        group_by = request.GET.get('group','0')
         kwargs = {}
-        if gender == 'Male':
-            gender = '1'
-        elif gender == 'Female':
-            gender = '2'
-        if gender != '0':
-            kwargs['record__gender'] = gender
+        if group_by == 'gender':
+            education = request.GET.get('education','0')
+            if education != '0':
+                kwargs['record__education'] = education
+ 
+        elif gender == 'education':
+            if gender == 'Male':
+                gender = '1'
+            elif gender == 'Female':
+                gender = '2'
+            if gender != '0':
+                kwargs['record__gender'] = gender
         country = request.GET.getlist('country',None)
-        education = request.GET.get('education','0')
-        if education != '0':
-            kwargs['record__education'] = education
         if country != ['0']:
             kwargs['record__country__in'] = country
     response_data = {}
     response_data['result'] = 'success'
     response_data['data'] = {}
             
-    if gender == '0':
+    if group_by == 'gender':
         result_male = BitString.objects.filter(record__age__range=(start_age,end_age),record__gender=1,**kwargs).values('bit_string','nmds').annotate(num=Count('record'))
         result_female = BitString.objects.filter(record__age__range=(start_age,end_age),record__gender=2,**kwargs).values('bit_string','nmds').annotate(num=Count('record'))
         response_data['data']['female']=[]
@@ -181,7 +182,7 @@ def record_search_group(request):
         return response_data
 
 
-    if education == '0':
+    if group_by == 'education':
         result1 = BitString.objects.filter(record__age__range=(start_age,end_age),record__education=1,**kwargs).values('record__gender','bit_string','nmds').annotate(num=Count('record'))
         result2 = BitString.objects.filter(record__age__range=(start_age,end_age),record__education=2,**kwargs).values('record__gender','bit_string','nmds').annotate(num=Count('record'))
         result3 = BitString.objects.filter(record__age__range=(start_age,end_age),record__education=3,**kwargs).values('record__gender','bit_string','nmds').annotate(num=Count('record'))
