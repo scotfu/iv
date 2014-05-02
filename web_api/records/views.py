@@ -48,12 +48,12 @@ def record_search(request):
             gender = '2'
         if gender != '0':
             kwargs['gender'] = gender
-        country = request.GET.getlist('country','0')
+        country = request.GET.get('country','0')
         education = request.GET.get('education','0')
         if education != '0':
             kwargs['education'] = education
-        if country != ['0']:
-            kwargs['country__in'] = country
+        if country != '0':
+            kwargs['country__in'] = country.split(",")
         if bit_string:
             kwargs['bit_string__bit_string'] = bit_string
 
@@ -100,12 +100,12 @@ def record_search_aggregation(request):
             gender = '2'
         if gender != '0':
             kwargs['record__gender'] = gender
-        country = request.GET.getlist('country',None)
+        country = request.GET.get('country',"0")
         education = request.GET.get('education','0')
         if education != '0':
             kwargs['record__education'] = education
-        if country != ['0']:
-            kwargs['record__country__in'] = country
+        if country != '0':
+            kwargs['record__country__in'] = country.split(",")
     print kwargs,country
     result = BitString.objects.filter(record__age__range=(start_age,end_age),**kwargs).annotate(num=Count('record'))
     objects  = Paginator(result,2000)
@@ -137,23 +137,24 @@ def record_search_group(request):
     if request.method =='GET':
         start_age = request.GET.get('start',1)
         end_age = request.GET.get('end',120)
-        group_by = request.GET.get('group','0')
+        group_by = request.GET.get('group_by','0')
         kwargs = {}
         if group_by == 'gender':
             education = request.GET.get('education','0')
             if education != '0':
                 kwargs['record__education'] = education
  
-        elif gender == 'education':
+        elif group_by == 'education':
+            gender =request.GET.get('gender','0')
             if gender == 'Male':
                 gender = '1'
             elif gender == 'Female':
                 gender = '2'
             if gender != '0':
                 kwargs['record__gender'] = gender
-        country = request.GET.getlist('country',None)
-        if country != ['0']:
-            kwargs['record__country__in'] = country
+        country = request.GET.get('country',0)
+        if country != '0':
+            kwargs['record__country__in'] = country.split(",")
     response_data = {}
     response_data['result'] = 'success'
     response_data['data'] = {}
