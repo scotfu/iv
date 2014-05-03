@@ -9,21 +9,19 @@
 </head>
 
 <body>
-
-<div id="left">
-
+<div id="top">
   <table id='filtertable_left'>
-    <tr>
+    <tr class="firstrow">
       <td>Age Start</td>
       <td>Age End</td>
       <td>Gender</td>
       <td>Education</td>
       <td>Country</td>
-      <td><select id='groupby'>
-      <option selected="selected">-Group By-</option>
-      <option>Gender</option>
-      <option>Education</option>
-      </select></td>
+      <td>Group By</td>
+      <td>Count Minimum</td>
+      <td>OK, let's do it</td>
+      <td style="width: 385px; text-align: left; "><b>Authors:</b> Feng Gao &amp; Shancong Fu </td> 
+
     </tr>
     <tr>
       <td><input type='text' id = 'age_start_left' value = 1 /></td>
@@ -34,140 +32,151 @@
       <option value="1">Male</option>
       <option value="2">Female</option>
 
+
       </select></td>
 
       <td><select id='education_left'>
+
       <option value="0">Discard</option>
       <option value="1">Some primary</option>
       <option value="2">Finished primary</option>
-      <option value="3">Some secondary</option>
-      <option value="4">Finished secondary</option>
 
-      </select></td>
-<td>
-<select id="country_left" name="country_left" data-placeholder="Choose a Country..." class="chosen-select" multiple style="width:150px;" tabindex="4">
-                  <option value=0 > All countries</option>
-                  <option value=1 > Afghanistan</option>
-                  <option value=2 > Albania</option>
-                  <option value=3 > Algeria</option>
-                  <option value=4 > Andorra</option>
-                  <option value=5 > Angola</option>
-                  <option value=6 > Antigua and Barbuda</option>
-                  <option value=7 > Argentina</option>
-                  <option value=8 > Armenia</option>
-                  <option value=9 > Austraoptiona</option>
-                  <option value=10 > Austria</option>
-                  <option value=11 > Azerbaijan</option>
-                  <option value=12 > Bahamas</option>
-                  <option value=13 > Bahrain</option>
-                  <option value=14 > Bangladesh</option>
-                  <option value=15 > Barbados</option>
-                  <option value=16 > Belarus</option>
-                  <option value=17 > Belgium</option>
-                  <option value=18 > Beoptionze</option>
-                  <option value=19 > Benin</option>
-                  <option value=20 > Bhutan</option>
-                  <option value=21 > Booptionvia (Plurinational State of)</option>
-                  <option value=22 > Bosnia and Herzegovina</option>
-                  <option value=23 > Botswana</option>
-                  <option value=24 > Brazil</option>
-                  <option value=25 > Brunei Darussalam</option>
-                  <option value=26 > Bulgaria</option>
-                  <option value=27 > Burkina Faso</option>
-                  <option value=28 > Burundi</option>
-                  <option value=29 > Cambodia</option>
-                  <option value=30 > Cameroon</option>
-                  <option value=31 > Canada</option>
-                  <option value=32 > Cape Verde</option>
-                  <option value=33 > Central African Repuboptionc</option>
-                  <option value=34 > Chad</option>
-                  <option value=35 > Chile</option>
-                  <option value=36 > China</option>
-                  <option value=37 > Colombia</option>
-                  <option value=38 > Comoros</option>
-                  <option value=39 > Congo</option>
-                  <option value=40 > Costa Rica</option>
-                  <option value=41 > Cote d'Ivoire</option>
-                  <option value=42 > Croatia</option>
-                  <option value=43 > Cuba</option>
-                  <option value=44 > Cyprus</option>
-                  <option value=45 > Czech Repuboptionc</option>
-                  <option value=46 > Democratic People's Repuboptionc of Korea</option>
-                  <option value=47 > Democratic Repuboptionc of the Congo</option>
-                  <option value=48 > Denmark</option>
-                  <option value=49 > Djibouti</option>
-                  <option value=50 > Dominica</option>
-                  <option value=51 > Dominican Repuboptionc</option>
-                  <option value=52 > Ecuador</option>
-                  <option value=53 > Egypt</option>
-                  <option value=54 > El Salvador</option>
-                  <option value=55 > Equatorial Guinea</option>
-                  <option value=56 > Eritrea</option>
-                  <option value=57 > Estonia</option>
-                  <option value=58 > Ethiopia</option>
-                  <option value=59 > Fiji</option>
-                  <option value=60 > Finland</option>
-                  <option value=61 > France</option>
-                  <option value=62 > Gabon</option>
-                  <option value=63 > Gambia</option>
-                  <option value=64 > Georgia</option>
-                  <option value=65 > Germany</option>
-                  <option value=66 > Ghana</option>
-                  <option value=67 > Greece</option>
-                  <option value=68 > Grenada</option>
-                  <option value=69 > Guatemala</option>
-                  <option value=70 > Guinea</option>
-                  <option value=71 > Guinea-Bissau</option>
-                  <option value=72 > Guyana</option>
-                  <option value=73 > Haiti</option>
-                  <option value=74 > Honduras</option>
-                  <option value=75 > Hungary</option>
-                  <option value=76 > Iceland</option>
-                  <option value=77 > India</option>
-                  <option value=78 > Indonesia</option>
-                  <option value=79 > Iran (Islamic Repuboptionc of)</option>
-                  <option value=80 > Iraq</option>
-                  <option value=81 > Ireland</option>
-                  <option value=82 > Israel</option>
-                  <option value=83 > Italy</option>
-                  <option value=84 > Jamaica</option>
-                  <option value=85 > Japan</option>
-                  <option value=86 > Jordan</option>
-                  <option value=87 > Kazakhstan</option>
-                  <option value=88 > Kenya</option>
-                  <option value=89 > Kiribati</option>
-                  <option value=90 > Kuwait</option>
-                  <option value=91 > Kyrgyzstan</option>
-                  <option value=92 > Lao People's Democratic Repuboptionc</option>
-                  <option value=93 > Latvia</option>
-                  <option value=94 > Lebanon</option>
-                  <option value=95 > Lesotho</option>
-                  <option value=96 > Optionberia</option>
-                  <option value=97 > Optionbya</option>
-                  <option value=98 > Optionechtenstein</option>
-                  <option value=99 > Optionthuania</option>
-                  <option value=100 > Luxembourg</option>
-                  <option value=101 > Madagascar</option>
-                  <option value=102 > Malawi</option>
-                  <option value=103 > Malaysia</option>
-                  <option value=104 > Maldives</option>
-                  <option value=105 > Maoption</option>
-                  <option value=106 > Malta</option>
-                  <option value=107 > Marshall Islands</option>
-                  <option value=108 > Mauritania</option>
-                  <option value=109 > Mauritius</option>
-                  <option value=110 > Mexico</option>
-                  <option value=111 > Micronesia (Federated States of)</option>
-                  <option value=112 > Monaco</option>
-                  <option value=113 > Mongooptiona</option>
-                  <option value=114 > Montenegro</option>
-                  <option value=115 > Morocco</option>
-                  <option value=116 > Mozambique</option>
-                  <option value=117 > Myanmar</option>
-                  <option value=118 > Namibia</option>
-                  <option value=119 > Nauru</option>
-                  <option value=120 > Nepal</option>
-                  <option value=121 > Netherlands</option>
+      <option value="3">Some secondary</option>
+      <option value ="4">Finished secondary</option>
+
+                    </select></td>
+              <td>
+              <select id="country_left" name="country_left" data-placeholder="Choose a Country..." class="chosen-select" multiple style="width:250px;" tabindex="4">
+                                <option value=0 > All countries</option>
+
+                                <option value=1 > Afghanistan</option>
+                                <option value=2 > Albania</option>
+                                <option value=3 > Algeria</option>
+                                <option value=4 > Andorra</option>
+                                <option value=5 > Angola</option>
+                                <option value=6 > Antigua and Barbuda</option>
+                                <option value=7 > Argentina</option>
+                                <option value
+              =8 > Armenia</option>
+                                <option value=9 > Austraoptiona</option>
+                                <option value=10 > Austria</option>
+                                <option value=11 > Azerbaijan</option>
+                                <option value=12 > Bahamas</option>
+                                <option value=13 > Bahrain</option>
+                                <option value=14 > Bangladesh</option>
+                                <option value=15 > Barbados</option>
+                                <option value=16 > Belarus</option>
+                                <option value=17 > Belgium</option>
+                                <option value=18 > Beoptionze</option>
+                                <option value=19 > Benin</option>
+
+                                <option value=20 > Bhutan</option>
+                                <option value=21 > Booptionvia (Plurinational State of)</option>
+                                <option value=22 > Bosnia and Herzegovina</option>
+                                <option value=23 > Botswana</option>
+                                <option value=24 > Brazil</option>
+                                <option value=25 > Brunei Darussalam</option>
+                                <option value=26 > Bulgaria</option>
+                                <option value=27 > Burkina Faso</option>
+                                <option value=28 > Burundi</option>
+                                <option value=29 > Cambodia</option>
+                                <option value=30 > Cameroon</option>
+                                <option value=31 > Canada</option>
+                                <option value=32 > Cape Verde</option>
+                                <option value=33 > Central African Repuboptionc</option>
+                                <option value=34 > Chad</option>
+                                <option value=35 > Chile</option>
+                                <option value=36 > China</option>
+                                <option value=37 > Colombia</option>
+                                <option value=38 > Comoros</option>
+                                <option value=39 > Congo</option>
+                                <option value
+              =40 > Costa Rica</option>
+                                <option value=41 > Cote d'Ivoire</option>
+                                <option value=42 > Croatia</option>
+
+                                <option value=43 > Cuba</option>
+                                <option value=44 > Cyprus</option>
+                                <option value=45 > Czech Repuboptionc</option>
+                                <option value=46 > Democratic People's Repuboptionc of Korea</option>
+                                <option value=47 > Democratic Repuboptionc of the Congo</option>
+                                <option value=48 > Denmark</option>
+                                <option value=49 > Djibouti</option>
+                                <option value=50 > Dominica</option>
+                                <option value=51 > Dominican Repuboptionc</option>
+                                <option value=52 > Ecuador</option>
+                                <option value=53 > Egypt</option>
+                                <option value=54 > El Salvador</option>
+                                <option value=55 > Equatorial Guinea</option>
+                                <option value=56 > Eritrea</option>
+                                <option value=57 > Estonia</option>
+                                <option value=58 > Ethiopia</option>
+                                <option value=59 > Fiji</option>
+                                <option value=60 > Finland</option>
+                                <option value=61 > France</option>
+                                <option value=62 > Gabon</option>
+                                <option value=63 > Gambia</option>
+                                <option value=64 > Georgia</option>
+                                <option value=65 > Germany</option>
+                                <option value=66 > Ghana</option>
+                                <option value=67 > Greece</option>
+                                <option value=68 > Grenada</option>
+                                <option value=69 > Guatemala</option>
+                                <option value=70 > Guinea</option>
+                                <option value=71 > Guinea-Bissau</option>
+                                <option value=72 > Guyana</option>
+                                <option value=73 > Haiti</option>
+                                <option value=74 > Honduras</option>
+                                <option value=75 > Hungary</option>
+                                <option value=76 > Iceland</option>
+                                <option value=77 > India</option>
+                                <option value=78 > Indonesia</option>
+                                <option value=79 > Iran (Islamic Repuboptionc of)</option>
+                                <option value=80 > Iraq</option>
+                                <option value=81 > Ireland</option>
+                                <option value=82 > Israel</option>
+                                <option value=83 > Italy</option>
+                                <option value=84 > Jamaica</option>
+
+                                <option value=85 > Japan</option>
+                                <option value=86 > Jordan</option>
+                                <option value=87 > Kazakhstan</option>
+                                <option value=88 > Kenya</option>
+                                <option value=89 > Kiribati</option>
+                                <option value=90 > Kuwait</option>
+                                <option value=91 > Kyrgyzstan</option>
+                                <option value=92 > Lao People's Democratic Repuboptionc</option>
+                                <option value=93 > Latvia</option>
+                                <option value=94 > Lebanon</option>
+                                <option value=95 > Lesotho</option>
+                                <option value=96 > Optionberia</option>
+                                <option value=97 > Optionbya</option>
+                                <option value=98 > Optionechtenstein</option>
+                                <option value=99 > Optionthuania</option>
+                                <option value=100 > Luxembourg</option>
+                                <option value=101 > Madagascar</option>
+                                <option value=102 > Malawi</option>
+                                <option value=103 > Malaysia</option>
+                                <option value
+              =104 > Maldives</option>
+                                <option value=105 > Maoption</option>
+                                <option value=106 > Malta</option>
+                                <option value=107 > Marshall Islands</option>
+                                <option value=108 > Mauritania</option>
+                                <option value=109 > Mauritius</option>
+                                <option value=110 > Mexico</option>
+                                <option value=111 > Micronesia (Federated States of)</option>
+                                <option value=112 > Monaco</option>
+                                <option value=113 > Mongooptiona</option>
+                                <option value=114 > Montenegro</option>
+                                <option value=115 > Morocco</option>
+                                <option value=116 > Mozambique</option>
+                                <option value=117 > Myanmar</option>
+                                <option value=118 > Namibia</option>
+                                <option value=119 > Nauru</option>
+                                <option value=120 > Nepal</option>
+                                <option value
+              =121 > Netherlands</option>
                   <option value=122 > New Zealand</option>
                   <option value=123 > Nicaragua</option>
                   <option value=124 > Niger</option>
@@ -240,13 +249,21 @@
                   <option value=191 > Yemen</option>
                   <option value=192 > Zambia</option>
                   <option value=193 > Zimbabwe</option>
-</select>
-</td>
-      <td><input type='button' id = 'filter_button_left' value = 'Draw Chart' /></td>
-
+        </select>
+        </td>
+      <td><select id='groupby'>
+      <option selected="selected">-Group By-</option>
+      <option>Gender</option>
+      <option>Education</option>
+      </select></td>
+       <td><input type='text' id = 'minimum' value = 0 /></td>     
+      <td><button id = 'filter_button_left'>Draw Chart</button></td>
+     <td style="width: 330px; text-align: left; "><b>Professor:</b> Enrico Bertini &middot; Info Visualization 2014 Spring &middot; Dateset: <a href="http://54.227.246.164/dataset/">MY World - UN</a> </td>
     </tr>
   </table>
+</div>
 
+<div id="left">
   <div id="offsetDiv_left">
     <div id="test1_left" class='with-3d-shadow with-transitions'>
       <svg></svg>
@@ -254,18 +271,13 @@
   </div>
 
   <div id="detail_left"></div>
-
 </div>
 
 <div id = "right">
   <div>
-    <table id="nametable"><tbody><tr> <td><b>Authors:</b> Feng Gao &amp; Shancong Fu </td> </tr>
-     <tr><td><b>Professor:</b> Enrico Bertini &middot; Info Visualization 2014 Spring &middot; Dateset: <a href="http://54.227.246.164/dataset/">MY World - UN</a> </td></tr></tbody> </table>
-  </div>
-  <div>
     <table id="prioritytable"><tbody><tr> <td><b>Priority Values</b> <button style = "float: right" onclick = "removeClass()">Clear</button> </td> </tr>
 
-      <tr> <td style="padding: 0 40px 0 0;">  <ul>
+      <tr> <td style="padding: 0 0 0 0;">  <ul>
                   <li id="p0"><strong>100</strong> = "Action taken on climate change" </li>
                   <li id="p1"><strong>101</strong> = "Better transport and roads"</li>
                   <li id="p2"><strong>102</strong> = "Support for people who can't work" </li>
@@ -284,246 +296,40 @@
                   <li id="p15"><strong>115</strong> = "Better job opportunities" </li>
                 </ul> </td> </tr>
     </tbody> </table>
-
-  </div>
-
-   <div>
-    <table id="countrytable"><tbody><tr> <td><b>Education & Gender Values</b> </td><td><b>Country Values</b> </td> </tr>
-    <tr>  <td style="padding: 0 0 0 0;"> <ul>
-                  <li>1 = "Some primary"</li>
-                  <li>2 = "Finished primary"</li>
-                  <li>3 = "Some secondary"</li>
-                  <li>4 = "Finished secondary"</li>
-                  <br>
-                  <li>1 = "Male"</li>
-                  <li>2 = "Female"</li>
-                  <li>0 = "All"</li>
-                </ul></td>
-<td style="padding: 0 0 10px 0;"> <div id="countrydiv"> <ul>
-                  <li>1 = Afghanistan</li>
-                  <li>2 = Albania</li>
-                  <li>3 = Algeria</li>
-                  <li>4 = Andorra</li>
-                  <li>5 = Angola</li>
-                  <li>6 = Antigua and Barbuda</li>
-                  <li>7 = Argentina</li>
-                  <li>8 = Armenia</li>
-                  <li>9 = Australia</li>
-                  <li>10 = Austria</li>
-                  <li>11 = Azerbaijan</li>
-                  <li>12 = Bahamas</li>
-                  <li>13 = Bahrain</li>
-                  <li>14 = Bangladesh</li>
-                  <li>15 = Barbados</li>
-                  <li>16 = Belarus</li>
-                  <li>17 = Belgium</li>
-                  <li>18 = Belize</li>
-                  <li>19 = Benin</li>
-                  <li>20 = Bhutan</li>
-                  <li>21 = Bolivia (Plurinational State of)</li>
-                  <li>22 = Bosnia and Herzegovina</li>
-                  <li>23 = Botswana</li>
-                  <li>24 = Brazil</li>
-                  <li>25 = Brunei Darussalam</li>
-                  <li>26 = Bulgaria</li>
-                  <li>27 = Burkina Faso</li>
-                  <li>28 = Burundi</li>
-                  <li>29 = Cambodia</li>
-                  <li>30 = Cameroon</li>
-                  <li>31 = Canada</li>
-                  <li>32 = Cape Verde</li>
-                  <li>33 = Central African Republic</li>
-                  <li>34 = Chad</li>
-                  <li>35 = Chile</li>
-                  <li>36 = China</li>
-                  <li>37 = Colombia</li>
-                  <li>38 = Comoros</li>
-                  <li>39 = Congo</li>
-                  <li>40 = Costa Rica</li>
-                  <li>41 = Cote d'Ivoire</li>
-                  <li>42 = Croatia</li>
-                  <li>43 = Cuba</li>
-                  <li>44 = Cyprus</li>
-                  <li>45 = Czech Republic</li>
-                  <li>46 = Democratic People's Republic of Korea</li>
-                  <li>47 = Democratic Republic of the Congo</li>
-                  <li>48 = Denmark</li>
-                  <li>49 = Djibouti</li>
-                  <li>50 = Dominica</li>
-                  <li>51 = Dominican Republic</li>
-                  <li>52 = Ecuador</li>
-                  <li>53 = Egypt</li>
-                  <li>54 = El Salvador</li>
-                  <li>55 = Equatorial Guinea</li>
-                  <li>56 = Eritrea</li>
-                  <li>57 = Estonia</li>
-                  <li>58 = Ethiopia</li>
-                  <li>59 = Fiji</li>
-                  <li>60 = Finland</li>
-                  <li>61 = France</li>
-                  <li>62 = Gabon</li>
-                  <li>63 = Gambia</li>
-                  <li>64 = Georgia</li>
-                  <li>65 = Germany</li>
-                  <li>66 = Ghana</li>
-                  <li>67 = Greece</li>
-                  <li>68 = Grenada</li>
-                  <li>69 = Guatemala</li>
-                  <li>70 = Guinea</li>
-                  <li>71 = Guinea-Bissau</li>
-                  <li>72 = Guyana</li>
-                  <li>73 = Haiti</li>
-                  <li>74 = Honduras</li>
-                  <li>75 = Hungary</li>
-                  <li>76 = Iceland</li>
-                  <li>77 = India</li>
-                  <li>78 = Indonesia</li>
-                  <li>79 = Iran (Islamic Republic of)</li>
-                  <li>80 = Iraq</li>
-                  <li>81 = Ireland</li>
-                  <li>82 = Israel</li>
-                  <li>83 = Italy</li>
-                  <li>84 = Jamaica</li>
-                  <li>85 = Japan</li>
-                  <li>86 = Jordan</li>
-                  <li>87 = Kazakhstan</li>
-                  <li>88 = Kenya</li>
-                  <li>89 = Kiribati</li>
-                  <li>90 = Kuwait</li>
-                  <li>91 = Kyrgyzstan</li>
-                  <li>92 = Lao People's Democratic Republic</li>
-                  <li>93 = Latvia</li>
-                  <li>94 = Lebanon</li>
-                  <li>95 = Lesotho</li>
-                  <li>96 = Liberia</li>
-                  <li>97 = Libya</li>
-                  <li>98 = Liechtenstein</li>
-                  <li>99 = Lithuania</li>
-                  <li>100 = Luxembourg</li>
-                  <li>101 = Madagascar</li>
-                  <li>102 = Malawi</li>
-                  <li>103 = Malaysia</li>
-                  <li>104 = Maldives</li>
-                  <li>105 = Mali</li>
-                  <li>106 = Malta</li>
-                  <li>107 = Marshall Islands</li>
-                  <li>108 = Mauritania</li>
-                  <li>109 = Mauritius</li>
-                  <li>110 = Mexico</li>
-                  <li>111 = Micronesia (Federated States of)</li>
-                  <li>112 = Monaco</li>
-                  <li>113 = Mongolia</li>
-                  <li>114 = Montenegro</li>
-                  <li>115 = Morocco</li>
-                  <li>116 = Mozambique</li>
-                  <li>117 = Myanmar</li>
-                  <li>118 = Namibia</li>
-                  <li>119 = Nauru</li>
-                  <li>120 = Nepal</li>
-                  <li>121 = Netherlands</li>
-                  <li>122 = New Zealand</li>
-                  <li>123 = Nicaragua</li>
-                  <li>124 = Niger</li>
-                  <li>125 = Nigeria</li>
-                  <li>126 = Norway</li>
-                  <li>127 = Oman</li>
-                  <li>128 = Pakistan</li>
-                  <li>129 = Palau</li>
-                  <li>130 = Panama</li>
-                  <li>131 = Papua New Guinea</li>
-                  <li>132 = Paraguay</li>
-                  <li>133 = Peru</li>
-                  <li>134 = Philippines</li>
-                  <li>135 = Poland</li>
-                  <li>136 = Portugal</li>
-                  <li>137 = Qatar</li>
-                  <li>138 = Republic of Korea</li>
-                  <li>139 = Republic of Moldova</li>
-                  <li>140 = Romania</li>
-                  <li>141 = Russian Federation</li>
-                  <li>142 = Rwanda</li>
-                  <li>143 = Saint Kitts and Nevis</li>
-                  <li>144 = Saint Lucia</li>
-                  <li>145 = Saint Vincent and the Grenadines</li>
-                  <li>146 = Samoa</li>
-                  <li>147 = San Marino</li>
-                  <li>148 = Sao Tome and Principe</li>
-                  <li>149 = Saudi Arabia</li>
-                  <li>150 = Senegal</li>
-                  <li>151 = Serbia</li>
-                  <li>152 = Seychelles</li>
-                  <li>153 = Sierra Leone</li>
-                  <li>154 = Singapore</li>
-                  <li>155 = Slovakia</li>
-                  <li>156 = Slovenia</li>
-                  <li>157 = Solomon Islands</li>
-                  <li>158 = Somalia</li>
-                  <li>159 = South Africa</li>
-                  <li>160 = South Sudan</li>
-                  <li>161 = Spain</li>
-                  <li>162 = Sri Lanka</li>
-                  <li>163 = Sudan</li>
-                  <li>164 = Suriname</li>
-                  <li>165 = Swaziland</li>
-                  <li>166 = Sweden</li>
-                  <li>167 = Switzerland</li>
-                  <li>168 = Syrian Arab Republic</li>
-                  <li>169 = Tajikistan</li>
-                  <li>170 = Thailand</li>
-                  <li>171 = The former Yugoslav Republic of Macedonia</li>
-                  <li>172 = Timor-Leste</li>
-                  <li>173 = Togo</li>
-                  <li>174 = Tonga</li>
-                  <li>175 = Trinidad and Tobago</li>
-                  <li>176 = Tunisia</li>
-                  <li>177 = Turkey</li>
-                  <li>178 = Turkmenistan</li>
-                  <li>179 = Tuvalu</li>
-                  <li>180 = Uganda</li>
-                  <li>181 = Ukraine</li>
-                  <li>182 = United Arab Emirates</li>
-                  <li>183 = United Kingdom of Great Britain and Northern Ireland</li>
-                  <li>184 = United Republic of Tanzania</li>
-                  <li>185 = United States of America</li>
-                  <li>186 = Uruguay</li>
-                  <li>187 = Uzbekistan</li>
-                  <li>188 = Vanuatu</li>
-                  <li>189 = Venezuela (Bolivarian Republic of)</li>
-                  <li>190 = Viet Nam</li>
-                  <li>191 = Yemen</li>
-                  <li>192 = Zambia</li>
-                  <li>193 = Zimbabwe</li>
-                  <li>194 = Palestine (State of)</li>
-                </ul> </div>
-              </td>
-
-              </tr>
+    <table id="suggtable"><tbody><tr> <td><b>Suggested Priorities</b><button id="suggbutton" style = "float: right;" disabled>Drill Down</button> </td> </tr>
+      <tr><td style="height: 290px"><div id="suggdiv">
+      </div></td></tr>
 
     </tbody> </table>
-  </div> 
-
-  <div id = "allbarcharts">
-  <div id="barchart" class='barchart'>
-    <svg></svg>
-  </div>
-
-  <div id="linechart">
-    <svg></svg>
-  </div>
 
   </div>
+</div>
 
+<div id = "allbarcharts">
+    <div id="barchart" class='barchart'>
+      <svg></svg>
+    </div>
 
-
+    <div id="linechart">
+      <svg></svg>
+    </div>
 </div>
 
 <script src="static/d3.v3.js"></script>
 <script src="static/stupidtable.min.js"></script>
 <script src="static/nv.d3.js"></script>
-  <script src="static/chosen.jquery.js" type="text/javascript"></script>
+<script src="static/chosen.jquery.js" type="text/javascript"></script>
 <script>
+var detailButtonBitStr = "";
+var detailButtonUrlStr = "";
 
 $(document).ready(function(){
+
+  $('#suggbutton').on('click', function(){
+      $('#suggbutton').prop("disabled", true);
+      displayDetail(detailButtonBitStr, detailButtonUrlStr, "left");
+  });
+
 $(".chosen-select").chosen()
     $('#filter_button_left').click(function(){
       var ageStart = $('#age_start_left').val();
@@ -533,17 +339,22 @@ $(".chosen-select").chosen()
       var country = $('#country_left').val();
       var page = 1;
       var group = $('#groupby').val();
+      var min = $('#minimum').val();
       var urlString = "start=" + ageStart + "&end=" + ageEnd + "&gender=" + gender + "&education="
                       + education +  "&country=" + country + "&p=" + page;
+
       //console.log(urlString);
 
       if (group == "Gender") {
+
            $.ajax({
             type: "GET",
+            //url: "mydataGender.json",
+            //dataType: "json",            
             url: "record/search/group/?callback=abc&group_by=gender&" + urlString,
             dataType: "jsonp",        
             success: function(data) {              
-              drawGraph(data, 'left', urlString, 'groupG');
+              drawGraph(data, 'left', urlString, 'groupG', min);
             },
             error : function(httpReq,status,exception){
                 alert(status+" "+exception);
@@ -552,10 +363,12 @@ $(".chosen-select").chosen()
       } else if (group == "Education") {
            $.ajax({
             type: "GET",
+           // url: "mydataEdu.json",
+           // dataType: "json",           
             url: "record/search/group/?callback=abc&group_by=education&" + urlString,
             dataType: "jsonp",        
             success: function(data) {              
-              drawGraph(data, 'left', urlString, 'groupE');
+              drawGraph(data, 'left', urlString, 'groupE', min);
             },
             error : function(httpReq,status,exception){
                 alert(status+" "+exception);
@@ -564,10 +377,12 @@ $(".chosen-select").chosen()
       } else {
            $.ajax({
             type: "GET",
+            //url: "mydata1.json",
+            //dataType: "json",           
             url: "record/search/aggregation/?callback=abc&" + urlString,
             dataType: "jsonp",        
             success: function(data) {              
-              drawGraph(data, 'left', urlString, 'nogroup');
+              drawGraph(data, 'left', urlString, 'nogroup', min);
             },
             error : function(httpReq,status,exception){
                 alert(status+" "+exception);
@@ -575,10 +390,11 @@ $(".chosen-select").chosen()
           });       
       }
 
+
     });
 });
 
-function drawGraph(source, myPage, urlStr, group) {
+function drawGraph(source, myPage, urlStr, group, mincount) {
   //Format A
   var chart;
   nv.addGraph(function() {
@@ -597,16 +413,16 @@ function drawGraph(source, myPage, urlStr, group) {
         removeClass();
         var bitstr = d["point"]["bitstring"];
         var buttonID = "#detail_" + myPage;
-        var hh = "<button id='showd' onclick = 'displayDetail(\"" + bitstr + "\", \"" + urlStr + "\", \""
-                + myPage + "\")' >Show Detail</button>";
-        $(buttonID).html(hh);
-       // displayDetail(bitstr, urlStr, myPage);
+        $('#suggbutton').prop("disabled", false);
+        detailButtonUrlStr = urlStr;
+        detailButtonBitStr = bitstr;
+
        highlightPri(bitstr);
         return "BitString: <b>" + bitstr + "</b> Count: <b>" + d["point"]["size"] + "</b>" ;
     });
     var pg = "#test1_" + myPage + " svg";
     d3.select(pg)
-        .datum(getData(source, group))
+        .datum(getData(source, group, mincount))
         .call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -630,6 +446,7 @@ function removeClass() {
     var j = "#p" + i;
     $(j).removeClass();
   }
+
 }
 
 function addOne(d) {
@@ -637,21 +454,39 @@ function addOne(d) {
   console.log(d.digit);
 }
 
+
 function displayDetail(bitstr, urlStr, myPage) {
       $.ajax({
         type: "GET",
+      //  url: "mydata3.json",
+        //dataType: "json",       
         url: "record/search/?callback=abc&bit=" + bitstr + "&" + urlStr,
         dataType: "jsonp",       
         success: function(data) {
           
-         showDetailTable(data, myPage);
+        // showDetailTable(data, myPage);
+         displaysugg(data);
          barChartGenderEdu(data,myPage);
          lineChartAge(data);
+
         },
         error : function(httpReq,status,exception){
             alert(status+" "+exception);
         }
       });  
+}
+
+function displaysugg(data) {
+  var list = data["suggs"];
+  var a = "";
+  for (i = 0; i < list.length; i++) {
+    if(list[i] != "")
+      a = a + "<li>" + list[i] + "</li>";
+  }
+  var hh = "<url>" + a + "</url>";
+  $('#suggdiv').html(hh);
+
+
 }
 
 function lineChartAge(data) {
@@ -674,6 +509,7 @@ function lineChartAge(data) {
   for(i = 0; i < list.length; i++) {
      var index = list[i].age;
      mydata[0].values[index].y++;
+
      if (list[i].gender == "Male") mydata[1].values[index].y++;
      if (list[i].gender == "Female") mydata[2].values[index].y++;
   }
@@ -692,6 +528,7 @@ function lineChartAge(data) {
     chart.y2Axis
         .tickFormat(d3.format(',.2f'));
 
+
     d3.select('#linechart svg')
         .datum(mydata)
         .transition().duration(500)
@@ -707,6 +544,7 @@ function barChartGenderEdu(data, myPage) {
   var source = data["data"]["records"];
   var myData = [{key: "Male", values: []}, {key: "Female", values: []}];
 
+
   for (i = 0; i < 4; i++) {
     myData[0].values.push({
       x: i,
@@ -715,12 +553,14 @@ function barChartGenderEdu(data, myPage) {
 
     myData[1].values.push({
       x: i,
+
       y: 0
     });
   }
 
   for (i = 0; i < source.length; i++) {
      var ed = parseInt(source[i]["education"].level) - 1;
+     if (ed == -1) ed = 0;
      //console.log("education is " + ed);
      if (source[i]["gender"] == "Male") {
         myData[0].values[ed].y++;
@@ -756,7 +596,7 @@ function showDetailTable(data, myPage) {
   
 }
 
-function getData(source, group) { //# groups,# points per group
+function getData(source, group, mincount) { //# groups,# points per group
   //console.log(source);
   if (group == "nogroup") {  //no grouping
       var data = [{key: "# of same response",values: []}];
@@ -765,58 +605,71 @@ function getData(source, group) { //# groups,# points per group
       for (i = 0; i < objList.length; i++) {
         var origin = objList[i]["bitstring"]["origin"];
         var str = objList[i]["bitstring"]["nmds"];
-        data[0].values.push({
-          x: parseFloat(str.split(",")[0]),
-          y: parseFloat(str.split(",")[1]),
-          size: parseInt(objList[i]["count"]),
-          shape: 'circle',
-          bitstring: origin
-        });
+        var s = parseInt(objList[i]["count"]);
+        if (s >= mincount) {
+           data[0].values.push({
+            x: parseFloat(str.split(",")[0]),
+            y: parseFloat(str.split(",")[1]),
+            size: parseInt(objList[i]["count"]),
+            shape: 'circle',
+            bitstring: origin
+          });         
+        }
+
       }        
   } else if (group == "groupG") {
     //group by gender
     var data = [{key: "Male", values: []}, {key: "Female", values: []}];
-
     /*
     for (var key in source["data"]) {
       var list = source["data"][key];
        for (i = 0; i < list.length; i++) {
            var origin = list[i]["bitstring"]["origin"];
            var str = list[i]["bitstring"]["nmds"];
+
            data[key].values.push({
               x: parseFloat(str.split(",")[0]),
               y: parseFloat(str.split(",")[1]),
               size: parseInt(maleArray[i]["count"]),
               shape: 'circle',
+
               bitstring: origin         
            });        
        }
     }  */
-    console.log(source);
+    //console.log(source);
     var maleArray = source["data"]["male"];
 
     var feArray = source["data"]["female"];
     for (i = 0; i < maleArray.length; i++) {
+       var s = parseInt(maleArray[i]["count"]);
        var origin = maleArray[i]["bitstring"]["origin"];
        var str = maleArray[i]["bitstring"]["nmds"];
-       data[0].values.push({
-          x: parseFloat(str.split(",")[0]),
-          y: parseFloat(str.split(",")[1]),
-          size: parseInt(maleArray[i]["count"]),
-          shape: 'circle',
-          bitstring: origin         
-       });
+       if (s >= mincount) {
+          data[0].values.push({
+            x: parseFloat(str.split(",")[0]),
+            y: parseFloat(str.split(",")[1]),
+            size: s,
+            shape: 'circle',
+            bitstring: origin         
+         });       
+       }
+
     }
     for (i = 0; i < feArray.length; i++) {
+       var s = parseInt(feArray[i]["count"]);
        var origin = feArray[i]["bitstring"]["origin"];
        var str = feArray[i]["bitstring"]["nmds"];
-       data[1].values.push({
-          x: parseFloat(str.split(",")[0]),
-          y: parseFloat(str.split(",")[1]),
-          size: parseInt(feArray[i]["count"]),
-          shape: 'circle',
-          bitstring: origin         
-       });
+       if (s >= mincount) {
+          data[1].values.push({
+            x: parseFloat(str.split(",")[0]),
+            y: parseFloat(str.split(",")[1]),
+            size: s,
+            shape: 'circle',
+            bitstring: origin         
+         });       
+       }
+
     }
 
   } else { //group by education
@@ -826,52 +679,68 @@ function getData(source, group) { //# groups,# points per group
     var e3 = source["data"]["edu3"];
     var e4 = source["data"]["edu4"]; 
     for (i = 0; i < e1.length; i++) {
+       var s = parseInt(e1[i]["count"]);
        var origin = e1[i]["bitstring"]["origin"];
        var str = e1[i]["bitstring"]["nmds"];
-       data[0].values.push({
-          x: parseFloat(str.split(",")[0]),
-          y: parseFloat(str.split(",")[1]),
-          size: parseInt(e1[i]["count"]),
-          shape: 'circle',
-          bitstring: origin         
-       });
+       if (s >= mincount) {
+         data[0].values.push({
+            x: parseFloat(str.split(",")[0]),
+            y: parseFloat(str.split(",")[1]),
+            size: s,
+            shape: 'circle',
+            bitstring: origin         
+         });        
+       }
     }
+
     for (i = 0; i < e2.length; i++) {
        var origin = e2[i]["bitstring"]["origin"];
        var str = e2[i]["bitstring"]["nmds"];
-       data[1].values.push({
-          x: parseFloat(str.split(",")[0]),
-          y: parseFloat(str.split(",")[1]),
-          size: parseInt(e2[i]["count"]),
-          shape: 'circle',
-          bitstring: origin         
-       });
+       var s = parseInt(e2[i]["count"]);
+       if (s >= mincount) {
+         data[1].values.push({
+            x: parseFloat(str.split(",")[0]),
+            y: parseFloat(str.split(",")[1]),
+            size: s,
+            shape: 'circle',
+            bitstring: origin         
+         });        
+       }
+
     }
     for (i = 0; i < e3.length; i++) {
        var origin = e3[i]["bitstring"]["origin"];
        var str = e3[i]["bitstring"]["nmds"];
-       data[2].values.push({
-          x: parseFloat(str.split(",")[0]),
-          y: parseFloat(str.split(",")[1]),
-          size: parseInt(e3[i]["count"]),
-          shape: 'circle',
-          bitstring: origin         
-       });
+       var s = parseInt(e3[i]["count"]);
+       if (s >= mincount) {
+          data[2].values.push({
+            x: parseFloat(str.split(",")[0]),
+            y: parseFloat(str.split(",")[1]),
+            size: s,
+            shape: 'circle',
+            bitstring: origin         
+         });       
+       }
+
     }
     for (i = 0; i < e4.length; i++) {
        var origin = e4[i]["bitstring"]["origin"];
        var str = e4[i]["bitstring"]["nmds"];
-       data[3].values.push({
-          x: parseFloat(str.split(",")[0]),
-          y: parseFloat(str.split(",")[1]),
-          size: parseInt(e4[i]["count"]),
-          shape: 'circle',
-          bitstring: origin         
-       });
+       var s = parseInt(e4[i]["count"]);
+       if (s >= mincount) {
+          data[3].values.push({
+            x: parseFloat(str.split(",")[0]),
+            y: parseFloat(str.split(",")[1]),
+            size: s,
+            shape: 'circle',
+            bitstring: origin         
+         });       
+       }
+
     }    
   }
 
-    //console.log(data);
+  console.log(data);
   return data;
 }
 
@@ -906,3 +775,7 @@ function drawBar(data, location) {
 
 
 </script>
+
+
+</body>
+</html>
