@@ -10,6 +10,7 @@ def read_data(file_name):
     file_handler = open(file_name)
     for line in file_handler:
         data.append(map(float, line[:-1].split(',')))
+    file_handler.close()    
     return data
 
     
@@ -53,30 +54,49 @@ def squared_euclidean_distance(pointA, pointB):
 
     return distance
     
-
     
-def assignment(points, k):
+def assignment(points, centroids):
     '''
     assgin points to k clusters, the first step of k-means iteration
     Randomly pick k points as centroids then assgin points to the nearest centroid
     '''
+    k = len(centroids)
     num_of_points = len(points)
     cluster_matrix = [[0 for i in range(num_of_points)] for j in range(k)]
-    
-    random.shuffle(points) # shuffle the points randomly
-    centroids = points[:k] # then pick the first k points as centroids
-    print centroids
-    for i in range(len(points[k:])):
+
+    for i in range(len(points)):
         distance = float('inf')
         assign_to = None
         for j in range(len(centroids)):
-            e_distance = squared_euclidean_distance(points[i+k], centroids[j])
+            e_distance = squared_euclidean_distance(points[i], centroids[j])
             if e_distance <= distance:
                 distance = e_distance
                 assign_to = j
-        cluster_matrix[assign_to][i+k] = 1
+        cluster_matrix[assign_to][i] = 1
         
     return cluster_matrix
+
+
+def update_centroids(points, cluster_matrix):
+    new_centroids = []
+    dimension = len(points[0])
+    for cluster in cluster_matrix:
+        coordinate = [0 for i in range(dimension)]
+        for position in range(len(cluster)):
+            if cluster[position] == 1:
+               coordinate = map(sum, zip(coordinate, points[position]))
+        count = float(cluster.count(1))
+        mean = map(lambda x:x/count, coordinate)
+        new_centroids.append(mean)    
+    return new_centroids
+
+def KMeans(points, k):
+    import pprint
+    centroids = random.sample(points, k)
+    cluster_matrix = assignment(points, centroids)
+    print cluster_matrix
+    print update_centroids(points, cluster_matrix)
+
     
 if __name__ == '__main__':
     try:
@@ -84,19 +104,16 @@ if __name__ == '__main__':
     except IndexError:
         raise Exception('File name is needed')
 
-    data = read_data(file_name)
-    print data[1]
-    pointA = data[10]
-    pointB = data[1]
-    print euclidean_distance(pointA, pointB)
+    points = read_data(file_name)
+
+    pointA = points[10]
+    pointB = points[1]
+#    print euclidean_distance(pointA, pointB)
 
     #verify the distance using numpy
     import numpy
     A = numpy.array((pointA[0], pointA[1]))
     B = numpy.array((pointB[0], pointB[1]))
     dist = numpy.linalg.norm(A-B)
-    print dist
-
-    import pprint
-    print assignment(data, 3)
-
+#    print dist
+    KMeans(points, 3)
