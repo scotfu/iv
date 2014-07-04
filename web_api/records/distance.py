@@ -94,9 +94,41 @@ def KMeans(points, k):
     import pprint
     centroids = random.sample(points, k)
     cluster_matrix = assignment(points, centroids)
-    print cluster_matrix
-    print update_centroids(points, cluster_matrix)
+    #cluster_matrix
+    centroids = update_centroids(points, cluster_matrix)
+    plot(points, cluster_matrix, centroids)
 
+def plot(points,cluster_matrix,centroids):
+    import numpy as np
+    import pylab as pl
+
+    fig = pl.figure(0)
+    fig.subplots_adjust(left=0.02, right=0.98, bottom=0.05, top=0.9)
+    colors = ['#4EACC5', '#FF9C34', '#4E9A06','black']
+
+    # We want to have the same colors for the same cluster from the
+    # MiniBatchKMeans and the KMeans algorithm. Let's pair the cluster centers per
+    # closest one.
+
+    # KMeans
+    #ax = fig.add_subplot(1,3,1)
+    ax = pl.axes([0., 0., 1., 1.])
+
+    for k, col in zip(range(len(cluster_matrix)), colors):
+        my_members = k
+        cluster_center = centroids[k]
+        cluster_points =[ points[i] for i in range(len(cluster_matrix[k])) if cluster_matrix[k][i]==1 ]
+        ax.plot(*zip(*cluster_points), marker='.',  markerfacecolor=col, ls='')
+        
+#        ax.plot(X[my_members, 0], X[my_members, 1], 'w',
+ #           markerfacecolor=col, marker='.')
+        ax.plot(cluster_center[0], cluster_center[1], 'o', markerfacecolor=col,
+            markeredgecolor='k', markersize=6)
+        ax.set_title('KMeans')
+        ax.set_xticks(())
+        ax.set_yticks(())
+    
+    pl.show()
     
 if __name__ == '__main__':
     try:
@@ -116,4 +148,4 @@ if __name__ == '__main__':
     B = numpy.array((pointB[0], pointB[1]))
     dist = numpy.linalg.norm(A-B)
 #    print dist
-    KMeans(points, 3)
+    KMeans(points, 4)
