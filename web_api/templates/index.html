@@ -676,7 +676,7 @@ function getData(source, group, mincount) { //# groups,# points per group
           data[i].values.push({
             x: parseFloat(str[0]),
             y: parseFloat(str[1]),
-            size: 3500,
+            size: parseInt(source["data"]["centroids_size"]),
             shape:"square",
 
          });       
@@ -687,9 +687,21 @@ function getData(source, group, mincount) { //# groups,# points per group
 
 }
   
+  data.push({key:"bar",values:[
+                    {x: parseFloat("0.745"),
+                    y: parseFloat("0.775"),
+                    size: 0,
+                    shape:"square",},
+                    {x: parseFloat("-0.775"),
+                    y: parseFloat("-0.725"),
+                    size: 0,
+                    shape:"square",}
+
+
+]
+                    })                   
   
-
-
+ console.log(data);
   return data;
 }
 

@@ -5,7 +5,7 @@ import json
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse
-from django.db.models import Count
+from django.db.models import Count, Avg, Max
 
 from .models import Record,BitString
 from .distance import KMeans
@@ -283,6 +283,8 @@ def kmeans(request):
             kwargs['record__country__in'] = country.split(",")
     print kwargs,country
     result = BitString.objects.filter(record__age__range=(start_age,end_age),**kwargs).annotate(num=Count('record'))
+    size = result.aggregate(Max('num'))['num__max'] / 1.5
+#    print avg
     objects  = Paginator(result,2000)
     response_data = {}
     response_data['result'] = 'success'
@@ -297,10 +299,11 @@ def kmeans(request):
         object_list = records.page(1)
     points = [map(float,r.nmds.split(',')) for r in object_list]
     cluster_matrix,centroids = KMeans(points,3)
-    response_data['data']['group0']=[]
-    response_data['data']['group1']=[]
-    response_data['data']['group2']=[]
-    response_data['data']['centroids']=centroids
+    response_data['data']['group0'] = []
+    response_data['data']['group1'] = []
+    response_data['data']['group2'] = []
+    response_data['data']['centroids']= centroids
+    response_data['data']['centroids_size']= size
     for position in range(len(object_list)):
         r = object_list[position]
         k = 0
