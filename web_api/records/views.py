@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Count
 
 from .models import Record,BitString
-
+from .distance import KMeans
 
 def json_response(func):
     """
@@ -259,6 +259,68 @@ def bitstring(request, b_id):
 
 def bit_string_search(request):
     pass
+
+    
+@json_response
+def kmeans(request):
+    if request.method =='GET':
+        start_age = request.GET.get('start',1)
+        end_age = request.GET.get('end',120)
+        gender = request.GET.get('gender','0')
+        page = request.GET.get('p',1)
+        kwargs = {}
+        if gender == 'Male':
+            gender = '1'
+        elif gender == 'Female':
+            gender = '2'
+        if gender != '0':
+            kwargs['record__gender'] = gender
+        country = request.GET.get('country',"0")
+        education = request.GET.get('education','0')
+        if education != '0':
+            kwargs['record__education'] = education
+        if country != '0':
+            kwargs['record__country__in'] = country.split(",")
+    print kwargs,country
+    result = BitString.objects.filter(record__age__range=(start_age,end_age),**kwargs).annotate(num=Count('record'))
+    objects  = Paginator(result,2000)
+    response_data = {}
+    response_data['result'] = 'success'
+    response_data['p_num'] = objects.num_pages
+    response_data['p'] = page
+    response_data['data'] = {}
+    response_data['data']['bitstrings'] = []
+    try :
+        object_list = objects.page(page)
+    except:
+        response_data['p'] = 1
+        object_list = records.page(1)
+    points = [map(float,r.nmds.split(',')) for r in object_list]
+    cluster_matrix,centroids = KMeans(points,3)
+    response_data['data']['group0']=[]
+    response_data['data']['group1']=[]
+    response_data['data']['group2']=[]
+    response_data['data']['centroids']=centroids
+    for position in range(len(object_list)):
+        r = object_list[position]
+        k = 0
+        while True:
+            if cluster_matrix[k][position] == 1:
+                break
+            else:
+                k += 1
+        group_name = 'group'+ str(k)
+        response_data['data'][group_name].append({
+                             'bitstring': {'origin': r.bit_string,
+                                           'pca': r.pca,
+                                           'mds': r.mds,
+                                           'nmds': r.nmds,
+                                           },
+                             'count': r.num,
+                             })
+
+    return response_data
+    
 
 @json_response
 def test(request):

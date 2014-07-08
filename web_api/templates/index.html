@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
 <link rel="stylesheet" href="static/nv.d3.css">
 <link rel="stylesheet" href="static/chosen.css">
 
@@ -14,29 +14,30 @@
 <body>
 <div class="container-fluid">
 
-<div class="filter row"> 
- <div class="col-md-1">Start Age</div>
-  <div class="col-md-1">End Age</div>
-  <div class="col-md-1">Gender</div>
-  <div class="col-md-1">Education Level</div>
-  <div class="col-md-1">Countries</div>
-  <div class="col-md-1">Group By</div>
-  <div class="col-md-1">Count Minimun</div>
-  <div class="col-md-1">Submit</div>
-</div>
+<div class="filter row "> 
 
-<div class="filter row selection">
+<div class="form-group col-md-1">
+    <label for="Start Age">Start Age</label>
+    <input type="text" class="form-control" id="age_start" placeholder="Start Age" value="1">
+  </div>
 
-  <div class="col-md-1">      <input type="text" id="age_start" value="1"/> </div>
-  <div class="col-md-1">      <input type="text" id="age_end" value="125"/> </div>
-      
-   <div class="col-md-1"><select id="gender">
+<div class="form-group col-md-1">
+    <label for="Start Age">End Age</label>
+    <input type="text" class="form-control" id="age_end" placeholder="End Age" value="125">
+  </div>
+
+ <div class="form-group col-md-1">
+    <label for="Start Age">Gender</label>
+  <select id="gender" class="form-control">
       <option value="0">All</option>
       <option value="1">Male</option>
       <option value="2">Female</option>
-      </select></div>
+      </select>
+  </div>
 
-       <div class="col-md-1"><select id="education">
+ <div class="form-group col-sm-2">
+    <label for="Start Age">Education Level</label>
+    <select id="education" class="form-control">
 
       <option value="0">Discard</option>
       <option value="1">Some primary</option>
@@ -44,10 +45,12 @@
 
       <option value="3">Some secondary</option>
       <option value="4">Finished secondary</option>
-      </select></div>
+      </select>
+  </div>
 
-       <div class="col-md-1"> 
-             <select id="country" name="country" data-placeholder="Choose Countries..." class="chosen-select" multiple style="width:250px;" tabindex="4">
+ <div class="form-group col-md-2">
+    <label for="Start Age">Countries</label>
+    <select multiple id="country" name="country" data-placeholder="Choose Countries..." class="form-control chosen-select"  tabindex="4">
                                 <option value=0 > All countries</option>
                                 <option value=1 > Afghanistan</option>
                                 <option value=2 > Albania</option>
@@ -246,22 +249,30 @@
                   <option value=192 > Zambia</option>
                   <option value=193 > Zimbabwe</option>
         </select>
-        </div>
-
-  <div class="col-md-1">      
-        <select id="groupby">
-      <option selected="selected">-Group By-</option>
-      <option>Gender</option>
-      <option>Education</option>
-      </select></div>
-  <div class="col-md-1"><input type="text" id ="minimum" value ="0"/>   </div>
-  <div class="col-md-1"><button id="filter_button">Draw Chart</button></div>
-
-</div>
   </div>
 
+ <div class="form-group col-md-2">
+    <label for="Group By">Group By</label>
+     <select id="groupby" class="form-control">
+      <option selected="selected">GroupBy</option>
+      <option>Gender</option>
+      <option>Education</option>
+      </select>
+  </div>
 
-    <div  class="container-fluid">
+   <div class="form-group col-md-1">
+    <label for="Start Age">Count Min</label>
+  <input class="form-control" type="text" id ="minimum" value ="0"/> 
+  </div>
+
+  <div class="col-md-1 form-group">
+   <label for="Button">Let's roll</label>
+  <button id="filter_button" class="btn btn-default">Magic Button</button></div>
+</div>
+
+</div>
+
+    <div class="container-fluid">
 
       <div class="row">
 
@@ -270,7 +281,7 @@
         </div>
 
         <div class="col-md-3"> 
-          <table id="prioritytable"><tbody><tr> <td><b>Priority Values</b> <button  onclick = "removeClass()">Clear</button> </td> </tr>
+          <table id="prioritytable" class="table"><tbody><tr> <td><b>Priority Values</b> <button  onclick = "removeClass()">Clear</button> </td> </tr>
 
             <tr> <td>  <ul>
                   <li id="p0"><strong>100</strong> = "Action taken on climate change" </li>
@@ -293,9 +304,20 @@
           </tbody> </table>
         </div>
 
+
+      <div class="kmeans col-md-3">
+
+ <div class="col-md-1 form-group">
+  <button id="k_button" class="btn btn-default">K-Means</button></div>
+</div>
+       </div>
       </div>
 
+
+
 </div>
+
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="static/d3.v3.js"></script>
@@ -307,10 +329,10 @@ var detailButtonBitStr = "";
 var detailButtonUrlStr = "";
 
 $(document).ready(function(){
-
-
 $(".chosen-select").chosen()
-    $("#filter_button").click(function(){
+})
+
+$("#filter_button").click(function(){
       var ageStart = $("#age_start").val();
       var ageEnd = $("#age_end").val();
       var gender = $("#gender").val();
@@ -371,7 +393,38 @@ $(".chosen-select").chosen()
 
 
     });
-});
+
+
+
+
+$("#k_button").click(function(){
+      var ageStart = $("#age_start").val();
+      var ageEnd = $("#age_end").val();
+      var gender = $("#gender").val();
+      var education = $("#education").val();
+      var country = $("#country").val();
+      var page = 1;
+      var group = $("#groupby").val();
+      var min = $("#minimum").val();
+      var urlString = "start=" + ageStart + "&end=" + ageEnd + "&gender=" + gender + "&education="
+                      + education +  "&country=" + country + "&p=" + page;
+
+      //console.log(urlString);
+
+           $.ajax({
+            type: "GET",
+            //url: "mydataGender.json",
+            //dataType: "json",            
+            url: "record/kmeans/?callback=abc&group_by=gender&" + urlString,
+            dataType: "jsonp",        
+            success: function(data) {              
+              drawGraph(data, 'left', urlString, 'groupK', min);
+            },
+            error : function(httpReq,status,exception){
+                alert(status+" "+exception);
+            }
+          });})
+
 
 function drawGraph(source, myPage, urlStr, group, mincount) {
   //Format A
@@ -399,6 +452,7 @@ function drawGraph(source, myPage, urlStr, group, mincount) {
        highlightPri(bitstr);
         return "BitString: <b>" + bitstr + "</b> Count: <b>" + d["point"]["size"] + "</b>" ;
     });
+      chart.scatter.onlyCircles(false);
     var pg = "#test1_" + myPage + " svg";
     d3.select(pg)
         .datum(getData(source, group, mincount))
@@ -461,24 +515,7 @@ function getData(source, group, mincount) { //# groups,# points per group
   } else if (group == "groupG") {
     //group by gender
     var data = [{key: "Male", values: []}, {key: "Female", values: []}];
-    /*
-    for (var key in source["data"]) {
-      var list = source["data"][key];
-       for (i = 0; i < list.length; i++) {
-           var origin = list[i]["bitstring"]["origin"];
-           var str = list[i]["bitstring"]["nmds"];
 
-           data[key].values.push({
-              x: parseFloat(str.split(",")[0]),
-              y: parseFloat(str.split(",")[1]),
-              size: parseInt(maleArray[i]["count"]),
-              shape: 'circle',
-
-              bitstring: origin         
-           });        
-       }
-    }  */
-    //console.log(source);
     var maleArray = source["data"]["male"];
 
     var feArray = source["data"]["female"];
@@ -513,7 +550,7 @@ function getData(source, group, mincount) { //# groups,# points per group
 
     }
 
-  } else { //group by education
+  } else if (group == "groupE"){ //group by education
     var data = [{key: "Edu1", values: []}, {key: "Edu2", values: []}, {key: "Edu3", values: []}, {key: "Edu4", values: []}];
     var e1 = source["data"]["edu1"];
     var e2 = source["data"]["edu2"];
@@ -580,8 +617,79 @@ function getData(source, group, mincount) { //# groups,# points per group
 
     }    
   }
+  else{
 
-  console.log(data);
+    var data = [{key: "k0", values: []}, {key: "k1", values: []}, {key: "k2", values: []}];
+    var e1 = source["data"]["group0"];
+    var e2 = source["data"]["group1"];
+    var e3 = source["data"]["group2"];
+    var centroids = source["data"]["centroids"];
+    for (i = 0; i < e1.length; i++) {
+       var s = parseInt(e1[i]["count"]);
+       var origin = e1[i]["bitstring"]["origin"];
+       var str = e1[i]["bitstring"]["nmds"];
+       if (s >= mincount) {
+         data[0].values.push({
+            x: parseFloat(str.split(",")[0]),
+            y: parseFloat(str.split(",")[1]),
+            size: s,
+            shape: 'circle',
+            bitstring: origin         
+         });        
+       }
+    }
+
+    for (i = 0; i < e2.length; i++) {
+       var origin = e2[i]["bitstring"]["origin"];
+       var str = e2[i]["bitstring"]["nmds"];
+       var s = parseInt(e2[i]["count"]);
+       if (s >= mincount) {
+         data[1].values.push({
+            x: parseFloat(str.split(",")[0]),
+            y: parseFloat(str.split(",")[1]),
+            size: s,
+            shape: 'circle',
+            bitstring: origin         
+         });        
+       }
+
+    }
+    for (i = 0; i < e3.length; i++) {
+       var origin = e3[i]["bitstring"]["origin"];
+       var str = e3[i]["bitstring"]["nmds"];
+       var s = parseInt(e3[i]["count"]);
+       if (s >= mincount) {
+          data[2].values.push({
+            x: parseFloat(str.split(",")[0]),
+            y: parseFloat(str.split(",")[1]),
+            size: s,
+            shape: 'circle',
+            bitstring: origin         
+         });       
+       }
+
+    }
+
+    for (i = 0; i < centroids.length; i++) {
+          var str = centroids[i];
+          console.log(str);		    
+          data[i].values.push({
+            x: parseFloat(str[0]),
+            y: parseFloat(str[1]),
+            size: 3500,
+            shape:"square",
+
+         });       
+       
+
+    }
+
+
+}
+  
+  
+
+
   return data;
 }
 

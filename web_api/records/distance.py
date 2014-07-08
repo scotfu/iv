@@ -96,7 +96,8 @@ def KMeans(points, k):
     cluster_matrix = assignment(points, centroids)
     #cluster_matrix
     centroids = update_centroids(points, cluster_matrix)
-    plot(points, cluster_matrix, centroids)
+    return cluster_matrix,centroids
+    #plot(points, cluster_matrix, centroids)
 
 def plot(points,cluster_matrix,centroids):
     import numpy as np
