@@ -281,7 +281,8 @@ def kmeans(request):
             kwargs['record__education'] = education
         if country != '0':
             kwargs['record__country__in'] = country.split(",")
-    print kwargs,country
+        selected_points = set(request.GET.getlist("point"))
+    selected_points = [map(float,BitString.objects.filter(bit_string=point)[0].nmds.split(',')) for point in selected_points]     
     result = BitString.objects.filter(record__age__range=(start_age,end_age),**kwargs).annotate(num=Count('record'))
     size = result.aggregate(Max('num'))['num__max'] / 1.5
 #    print avg
@@ -291,19 +292,18 @@ def kmeans(request):
     response_data['p_num'] = objects.num_pages
     response_data['p'] = page
     response_data['data'] = {}
-    response_data['data']['bitstrings'] = []
+    response_data['centroids_sizes']=[]
     try :
         object_list = objects.page(page)
     except:
         response_data['p'] = 1
         object_list = records.page(1)
     points = [map(float,r.nmds.split(',')) for r in object_list]
-    cluster_matrix,centroids = KMeans(points,3)
-    response_data['data']['group0'] = []
-    response_data['data']['group1'] = []
-    response_data['data']['group2'] = []
-    response_data['data']['centroids']= centroids
-    response_data['data']['centroids_size']= size
+    cluster_matrix,centroids = KMeans(points,centroids=selected_points)
+    for i in range(len(selected_points)):
+        response_data['data']['group'+ str(i)] = []
+    response_data['centroids']= {}
+
     for position in range(len(object_list)):
         r = object_list[position]
         k = 0
@@ -312,7 +312,7 @@ def kmeans(request):
                 break
             else:
                 k += 1
-        group_name = 'group'+ str(k)
+        group_name = 'group'+ str(k)                
         response_data['data'][group_name].append({
                              'bitstring': {'origin': r.bit_string,
                                            'pca': r.pca,
@@ -321,7 +321,8 @@ def kmeans(request):
                                            },
                              'count': r.num,
                              })
-
+    for group in response_data['data']:
+        response_data['centroids'][group] ={'avg_count':sum([record['count'] for record in response_data['data'][group]])/len(response_data['data'][group]), 'coordinate':centroids[int(group[-1])]}
     return response_data
     
 

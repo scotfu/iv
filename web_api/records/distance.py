@@ -90,9 +90,9 @@ def update_centroids(points, cluster_matrix):
         new_centroids.append(mean)    
     return new_centroids
 
-def KMeans(points, k):
-    import pprint
-    centroids = random.sample(points, k)
+def KMeans(points,centroids):
+    #import pprint
+    #centroids = random.sample(points, k)
     cluster_matrix = assignment(points, centroids)
     #cluster_matrix
     centroids = update_centroids(points, cluster_matrix)
