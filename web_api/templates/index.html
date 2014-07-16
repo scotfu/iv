@@ -254,9 +254,9 @@
  <div class="form-group col-md-2">
     <label for="Group By">Group By</label>
      <select id="groupby" class="form-control">
-      <option selected="selected">GroupBy</option>
-      <option>Gender</option>
-      <option>Education</option>
+      <option value="none">GroupBy</option>
+      <option value="gender">Gender</option>
+      <option value="edu">Education</option>
       </select>
   </div>
 
@@ -276,32 +276,8 @@
 
       <div class="row">
 
-        <div id="test1_left" class="with-3d-shadow with-transitions col-md-8" style="height:1000px">
+        <div id="test1_left" class="with-3d-shadow with-transitions col-md-8"  style="height:1000px">
           <svg></svg>
-        </div>
-
-        <div class="col-md-3"> 
-          <table id="prioritytable" class="table"><tbody><tr> <td><b>Priority Values</b> <button  onclick = "removeClass()">Clear</button> </td> </tr>
-
-            <tr> <td>  <ul>
-                  <li id="p0"><strong>100</strong> = "Action taken on climate change" </li>
-                  <li id="p1"><strong>101</strong> = "Better transport and roads"</li>
-                  <li id="p2"><strong>102</strong> = "Support for people who can't work" </li>
-                  <li id="p3"><strong>103</strong> = "Access to clean water and sanitation" </li>
-                  <li id="p4"><strong>104</strong> = "Better healthcare" </li>
-                  <li id="p5"><strong>105</strong> = "A good education" </li>
-                  <li id="p6"><strong>106</strong> = "A responsive government we can trust" </li>
-                  <li id="p7"><strong>107</strong> = "Phone and internet access" </li>
-                  <li id="p8"><strong>108</strong> = "Reliable energy at home" </li>
-                  <li id="p9"><strong>109</strong> = "Affordable and nutritious food" </li>
-                  <li id="p10"><strong>110</strong> = "Protecting forests, rivers and oceans" </li>
-                  <li id="p11"><strong>112</strong> = "Political freedoms" </li>
-                  <li id="p12"><strong>111</strong> = "Protection against crime and violence" </li>
-                  <li id="p13"><strong>113</strong> = "Freedom from discrimination and persecution" </li>
-                  <li id="p14"><strong>114</strong> = "Equality between men and women" </li>
-                  <li id="p15"><strong>115</strong> = "Better job opportunities" </li>
-                </ul> </td> </tr>
-          </tbody> </table>
         </div>
 
 
@@ -312,7 +288,7 @@
   
   </table>
  <div class="col-md-1 form-group">
-  <button id="k_button" class="btn btn-default">K-Means</button></div>
+  <button id="k_button" class="btn btn-default k-button">K-Means</button></div>
 </div>
        </div>
       </div>
@@ -323,12 +299,30 @@
   <div class="container-fluid">
         <div class="row">
 
-        <div id="test1_left2" class="with-3d-shadow with-transitions col-md-8" style="height:1000px">
+        <div id="test1_left2" class="with-3d-shadow with-transitions col-md-8"  style="height:1000px">
           <svg></svg>
         </div>
 
-</div>
 
+      <div class="kmeans col-md-3">
+
+  <table id="k-points-2" class="table">
+  <tbody></tbody>
+  
+  </table>
+ <div class="col-md-1 form-group">
+  <button id="k_button_2" class="btn btn-default k-button">K-Means</button></div>
+</div>
+       </div>
+
+</div>
+  <div class="container-fluid">
+        <div class="row">
+
+        <div id="test1_left3" class="with-3d-shadow with-transitions col-md-8"  style="height:1000px">
+          <svg></svg>
+        </div>
+</div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -342,8 +336,8 @@ var detailButtonUrlStr = "";
 
 $(document).ready(function(){
 $(".chosen-select").chosen();
-
 })
+
 
 $("#filter_button").click(function(){
       var ageStart = $("#age_start").val();
@@ -354,55 +348,26 @@ $("#filter_button").click(function(){
       var page = 1;
       var group = $("#groupby").val();
       var min = $("#minimum").val();
-      var urlString = "start=" + ageStart + "&end=" + ageEnd + "&gender=" + gender + "&education="
-                      + education +  "&country=" + country + "&p=" + page;
-
-      //console.log(urlString);
-
-      if (group == "Gender") {
-
-           $.ajax({
-            type: "GET",
-            //url: "mydataGender.json",
-            //dataType: "json",            
-            url: "record/search/group/?callback=abc&group_by=gender&" + urlString,
-            dataType: "jsonp",        
-            success: function(data) {              
-              drawGraph(data, 'left', urlString, 'groupG', min);
-            },
-            error : function(httpReq,status,exception){
-                alert(status+" "+exception);
-            }
-          });
-      } else if (group == "Education") {
-           $.ajax({
-            type: "GET",
-           // url: "mydataEdu.json",
-           // dataType: "json",           
-            url: "record/search/group/?callback=abc&group_by=education&" + urlString,
-            dataType: "jsonp",        
-            success: function(data) {              
-              drawGraph(data, 'left', urlString, 'groupE', min);
-            },
-            error : function(httpReq,status,exception){
-                alert(status+" "+exception);
-            }
-          });
-      } else {
-           $.ajax({
-            type: "GET",
-            //url: "mydata1.json",
-            //dataType: "json",           
-            url: "record/search/aggregation/?callback=abc&" + urlString,
-            dataType: "jsonp",        
-            success: function(data) {              
-              drawGraph(data, 'left', urlString, 'nogroup', min);
-            },
-            error : function(httpReq,status,exception){
-                alert(status+" "+exception);
-            }
-          });       
+      var urlString = "start=" + ageStart + "&end=" + ageEnd + "&gender=" + gender + "&education=" + education +  "&country=" + country +"&group_by="+ group +"&p=" + page;
+      if(group=="none"){
+         prefix = "record/search/aggregation/?";
       }
+      else{
+         prefix = "record/search/group/?";
+
+       }  
+       console.log(prefix);
+      $.ajax({
+            type: "GET",
+            url: prefix + urlString,
+            dataType: "jsonp",        
+            success: function(data) {              
+              drawGraph(data, "left", urlString, group, min);
+            },
+            error : function(httpReq,status,exception){
+                alert(status+" "+exception);
+            }
+          });
 
 
     });
@@ -410,7 +375,7 @@ $("#filter_button").click(function(){
 
 
 
-$("#k_button").click(function(){
+$(".k-button").click(function(){
 
       var ageStart = $("#age_start").val();
       var ageEnd = $("#age_end").val();
@@ -422,25 +387,33 @@ $("#k_button").click(function(){
       var min = $("#minimum").val();
       var urlString = "start=" + ageStart + "&end=" + ageEnd + "&gender=" + gender + "&education="
                       + education +  "&country=" + country + "&p=" + page;
+      var location = "left2"
       $('#k-points tr').each(function() {
         urlString += "&point=" +$(this).find("td").html();    
        });
+       prefix = "record/kmeans/?";
+       if(this.id=="k_button_2"){
+         prefix ="record/kmeans_2/?";
+         location ="left3"
+        $('#k-points-2 tr').each(function() {
+        urlString += "&2nd_point=" +$(this).find("td").html();    
+       });
 
-      //console.log(urlString);
+        };
+       console.log(urlString);
 
            $.ajax({
             type: "GET",
-            //url: "mydataGender.json",
-            //dataType: "json",            
-            url: "record/kmeans/?callback=abc&group_by=gender&" + urlString,
+            url: prefix + urlString,
             dataType: "jsonp",        
             success: function(data) {              
-              drawGraph(data, 'left2', urlString, 'groupK', min);
+              drawGraph(data, location, urlString, 'groupK', min);
             },
             error : function(httpReq,status,exception){
                 alert(status+" "+exception);
             }
           });})
+
 
 
 function drawGraph(source, myPage, urlStr, group, mincount) {
@@ -453,21 +426,19 @@ function drawGraph(source, myPage, urlStr, group, mincount) {
                   .useVoronoi(false)
                   .color(d3.scale.category10().range())
                   .transitionDuration(300)
+                  .height(1000);
                   ;
-                  //------------------------------------------tooltipsection-----------------------------
+
     chart.xAxis.tickFormat(d3.format('.02f'));
     chart.yAxis.tickFormat(d3.format('.02f'));
-    chart.tooltipContent(function(a,b,c,d) {
-        //console.log(d["point"]["size"]);
+    chart.tooltipContent(function(key,x,y,e,chart) {
         removeClass();
-        var bitstr = d["point"]["bitstring"];
-        var buttonID = "#detail_" + myPage;
-        $('#suggbutton').prop("disabled", false);
+        var bitstr = e["point"]["bitstring"];
         detailButtonUrlStr = urlStr;
         detailButtonBitStr = bitstr;
+       //  highlightPri(bitstr);
 
-       highlightPri(bitstr);
-        return "BitString: <b>" + bitstr + "</b> Count: <b>" + d["point"]["size"] + "</b>" ;
+        return "BitString: <b>" + bitstr + "</b> Count: <b>" + e["point"]["size"] + "</b>" ;
     });
 
     chart.scatter.onlyCircles(false);
@@ -485,7 +456,9 @@ function drawGraph(source, myPage, urlStr, group, mincount) {
          $(".nv-point").on('click',
                function(){
                 bitstring = $(".xy-tooltip b").html().toString();
-                $("#k-points tbody:last").append('<tr><td>'+bitstring+'</td></tr>');
+                var selector = "#test1_"+myPage+"+ .kmeans table tbody:last";
+                console.log(selector);
+                $(selector).append('<tr><td>'+bitstring+'</td></tr>');
                 console.log(bitstring);
            });
 
@@ -519,7 +492,7 @@ function addOne(d) {
 
 function getData(source, group, mincount) { //# groups,# points per group
   //console.log(source);
-  if (group == "nogroup") {  //no grouping
+  if (group == "none") {  //no grouping
       var data = [{key: "# of same response",values: []}];
       var objList = source["data"]["bitstrings"];
       
@@ -538,7 +511,7 @@ function getData(source, group, mincount) { //# groups,# points per group
         }
 
       }        
-  } else if (group == "groupG") {
+  } else if (group == "gender") {
     //group by gender
     var data = [{key: "Male", values: []}, {key: "Female", values: []}];
 
@@ -576,7 +549,7 @@ function getData(source, group, mincount) { //# groups,# points per group
 
     }
 
-  } else if (group == "groupE"){ //group by education
+  } else if (group == "edu"){ //group by education
     var data = [{key: "Edu1", values: []}, {key: "Edu2", values: []}, {key: "Edu3", values: []}, {key: "Edu4", values: []}];
     var e1 = source["data"]["edu1"];
     var e2 = source["data"]["edu2"];

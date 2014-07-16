@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 #coding=utf-8
 from django.conf.urls import patterns, url
-from .views import record, bitstring, record_search, bit_string_search,record_search_aggregation,record_search_group,test,kmeans
+from .views import record, bitstring, record_search, bit_string_search,record_search_aggregation,record_search_group,test,kmeans,kmeans_2
 
 
 urlpatterns = patterns('',
@@ -10,7 +10,8 @@ urlpatterns = patterns('',
     url(r'^record/search/$', record_search,name='record_search'),
     url(r'^record/search/aggregation/$', record_search_aggregation,name='record_search_aggregation'),
     url(r'^record/search/group/$', record_search_group,name='record_search_group'),
-    url(r'^record/kmeans/$', kmeans,name='kmeans'),	
+    url(r'^record/kmeans/$', kmeans,name='kmeans'),
+    url(r'^record/kmeans_2/$', kmeans_2,name='kmeans_2'),	
     url(r'^bitstring/search/$', bit_string_search,name='bit_string_search'),
     url(r'^test/$',test,name='test'),
     )
