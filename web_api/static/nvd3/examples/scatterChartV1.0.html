@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<link href="../src/nv.d3.css" rel="stylesheet" type="text/css">
+
+<head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<style>
+
+body {
+  overflow-y:scroll;
+  margin: 0;
+  padding: 0;
+}
+
+#left{
+  float: left;
+  margin-left: 10px;
+}
+#right{
+  float: right;
+  margin-right: 20px;
+}
+svg {
+  overflow: hidden;
+}
+
+div {
+  border: 0;
+  margin: 0;
+}
+
+#test1_left, #test1_right {
+  margin: 0;
+}
+
+#test1_left svg, #test1_right svg {
+  height:  600px;
+  width: 760px;
+  
+  border: 2px solid;
+}
+
+</style>
+</head>
+
+
+
+<body>
+
+<div id="left">
+
+  <table id='filtertable_left'>
+    
+    <tr><td colspan = '8'><b>Filters:</b></td></tr>
+    <tr>
+      <td>Age Start</td>
+      <td>Age End</td>
+      <td>Gender</td>
+      <td>Education</td>
+      <td>Country</td>
+    </tr>
+    <tr>
+      <td><input type='text' id = 'age_start_left' value = 1 /></td>
+      <td><input type='text' id = 'age_end_left' value = 125 /></td>
+      
+      <td><select id='gender_left'>
+      <option>1</option>
+      <option>2</option>
+      <option>0</option>
+      </select></td>
+
+      <td><select id='education_left'>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>0</option>
+      </select></td>
+      <td><input type='text' id = 'country_left' value = 1 /></td>
+      <td><input type='button' id = 'filter_button_left' value = 'Draw Chart' /></td>
+
+    </tr>
+  </table>
+
+<div id="offsetDiv_left">
+  <div id="test1_left" class='with-3d-shadow with-transitions'>
+    <svg></svg>
+  </div>
+</div>
+
+<div id="detail_left"></div>
+
+<div id="barchart_left" class='with-3d-shadow with-transitions'>
+  <svg></svg>
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div id="right">
+
+  <table id='filtertable_right'>
+    
+    <tr><td colspan = '8'><b>Filters:</b></td></tr>
+    <tr>
+      <td>Age Start</td>
+      <td>Age End</td>
+      <td>Gender</td>
+      <td>Education</td>
+      <td>Country</td>
+    </tr>
+    <tr>
+      <td><input type='text' id = 'age_start_right' value = 1 /></td>
+      <td><input type='text' id = 'age_end_right' value = 125 /></td>
+      
+      <td><select id='gender_right'>
+      <option>1</option>
+      <option>2</option>
+      <option>0</option>
+      </select></td>
+
+      <td><select id='education_right'>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>0</option>
+      </select></td>
+      <td><input type='text' id = 'country_right' value = 1 /></td>
+      <td><input type='button' id = 'filter_button_right' value = 'Draw Chart' /></td>
+
+    </tr>
+  </table>
+
+  <div id="offsetDiv_right">
+    <div id="test1_right" class='with-3d-shadow with-transitions'>
+      <svg></svg>
+    </div>
+  </div>
+<div id="detail_right"></div>
+</div>
+<script src="../lib/d3.v3.js"></script>
+<script src="../lib/stupidtable.min.js"></script>
+<script src="../lib/d3.v3.js"></script>
+<!--<script src="../lib/fisheye.js"></script>-->
+<script src="../nv.d3.js"></script>
+<script>
+
+$(document).ready(function(){
+    $('#filter_button_left').click(function(){
+      var ageStart = $('#age_start_left').val();
+      var ageEnd = $('#age_end_left').val();
+      var gender = $('#gender_left').val();
+      var education = $('#education_left').val();
+      var country = $('#country_left').val();
+      var page = 1;
+      var urlString = "start=" + ageStart + "&end=" + ageEnd + "&gender=" + gender + "&education="
+                      + education +  "&country=" + country + "&p=" + page;
+      //console.log(urlString);
+      $.ajax({
+        type: "GET",
+        //url: "http://54.82.120.1:5000/record/search/aggregation/?callback=abc&" + urlString,
+        //dataType: "jsonp",        
+        url: "mydata1.json",
+        dataType: "json",
+        success: function(data) {
+          
+          drawGraph(data, 'left', urlString);
+
+        },
+        error : function(httpReq,status,exception){
+            alert(status+" "+exception);
+        }
+      });
+    });
+});
+
+$(document).ready(function(){
+    $('#filter_button_right').click(function(){
+      var ageStart = $('#age_start_right').val();
+      var ageEnd = $('#age_end_right').val();
+      var gender = $('#gender_right').val();
+      var education = $('#education_right').val();
+      var country = $('#country_right').val();
+      var urlString = "start=" + ageStart + "&end=" + ageEnd + "&gender=" + gender + "&education="
+                      + education +  "&country=" + country + "&p=1";
+      //console.log(urlString);
+      $.ajax({
+        type: "GET",
+        url: "http://54.82.120.1:5000/record/search/aggregation/?callback=abc&" + urlString,
+        dataType: "jsonp",
+        success: function(data) {
+          drawGraph(data, 'right', urlString);
+
+        },
+        error : function(httpReq,status,exception){
+            alert(status+" "+exception);
+        }
+      });
+    });
+});
+function drawGraph(source, myPage, urlStr) {
+  //Format A
+  var chart;
+  nv.addGraph(function() {
+    chart = nv.models.scatterChart()
+                  .showDistX(false)
+                  .showDistY(false)
+                  .useVoronoi(false)
+                  .color(d3.scale.category10().range())
+                  .transitionDuration(300)
+                  ;
+
+    chart.xAxis.tickFormat(d3.format('.02f'));
+    chart.yAxis.tickFormat(d3.format('.02f'));
+    chart.tooltipContent(function(a,b,c,d) {
+        //console.log(d["point"]["size"]);
+        var bitstr = d["point"]["bitstring"];
+        var buttonID = "#detail_" + myPage;
+        var hh = "<button id='showd' onclick = 'displayDetail(\"" + bitstr + "\", \"" + urlStr + "\", \""
+                + myPage + "\")' >Show Detail</button>";
+        $(buttonID).html(hh);
+       // displayDetail(bitstr, urlStr, myPage);
+        return "BitString: <b>" + bitstr + "</b> Count: <b>" + d["point"]["size"] + "</b>" ;
+    });
+    var pg = "#test1_" + myPage + " svg";
+    d3.select(pg)
+        .datum(getData(source))
+        .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    chart.dispatch.on('stateChange', function(e) { ('New State:', JSON.stringify(e)); });
+
+    return chart;
+  });  
+}
+
+function addOne(d) {
+  d.digit++;
+  console.log(d.digit);
+}
+
+function displayDetail(bitstr, urlStr, myPage) {
+      $.ajax({
+        type: "GET",
+        //url: "http://54.82.120.1:5000/record/search/?callback=abc&bit=" + bitstr + "&" + urlStr,
+        //dataType: "jsonp",       
+        url: "mydata2.json",
+        dataType: "json",
+        success: function(data) {
+          
+         showDetailTable(data, myPage);
+        },
+        error : function(httpReq,status,exception){
+            alert(status+" "+exception);
+        }
+      });  
+}
+
+function showDetailTable(data, myPage) {
+  var detailHTML = "<table id='sortableTable'><thead><tr><th data-sort='string'>Gender</th><th data-sort='int'>Age</th><th data-sort='string'>Education</th><th data-sort='string'>Country</th></tr></thead><tbody>";
+  console.log(data);
+
+  var source = data["data"]["records"];
+  var tb = "";
+  for (i = 0; i < source.length; i++) {
+     tb = tb + "<tr><td>" + source[i]["gender"] + "</td>"
+                            + "<td>"     + source[i]["age"] + "</td>"
+                            + "<td>"     + source[i]["education"].name + "</td>"
+                            + "<td>"     + source[i]["country"].name + "</td>"
+                            + "</tr>";
+  }
+  detailHTML = detailHTML + tb + "</tbody></table>";
+  var d = "#detail_" + myPage;
+  $(d).html(detailHTML);
+  $("#sortableTable").stupidtable();
+  
+}
+
+function getData(source) { //# groups,# points per group
+  var data = [];
+
+  var objList = source["data"]["bitstrings"];
+  //console.log(objList);
+
+  data.push({
+    key: "# of same response",
+    values: []
+  });
+
+  for (i = 0; i < objList.length; i++) {
+    var origin = objList[i]["bitstring"]["origin"];
+    var str = objList[i]["bitstring"]["nmds"];
+    data[0].values.push({
+      x: parseFloat(str.split(",")[0]),
+      y: parseFloat(str.split(",")[1]),
+      size: parseInt(objList[i]["count"]),
+      shape: 'circle',
+      bitstring: origin
+    });
+  }
+
+    //console.log(data);
+  return data;
+}
+
+/*---------------------bar chart------------------------*/
+
+nv.addGraph(function() {
+  var chart = nv.models.discreteBarChart()
+      .x(function(d) { return d.label })    //Specify the data accessors.
+      .y(function(d) { return d.value })
+      .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
+      .tooltips(false)        //Don't show tooltips
+      .showValues(true)       //...instead, show the bar value right on top of each bar.
+      .transitionDuration(350)
+      ;
+
+  d3.select('#barchart_left svg')
+      .datum(exampleData())
+      .call(chart);
+
+  nv.utils.windowResize(chart.update);
+
+  return chart;
+});
+
+//Each bar represents a single discrete quantity.
+function exampleData() {
+ return  [ 
+    {
+      key: "Cumulative Return",
+      values: [
+        { 
+          "label" : "A Label" ,
+          "value" : -29.765957771107
+        } , 
+        { 
+          "label" : "B Label" , 
+          "value" : 0
+        } , 
+        { 
+          "label" : "C Label" , 
+          "value" : 32.807804682612
+        } , 
+        { 
+          "label" : "D Label" , 
+          "value" : 196.45946739256
+        } , 
+        { 
+          "label" : "E Label" ,
+          "value" : 0.19434030906893
+        } , 
+        { 
+          "label" : "F Label" , 
+          "value" : -98.079782601442
+        } , 
+        { 
+          "label" : "G Label" , 
+          "value" : -13.925743130903
+        } , 
+        { 
+          "label" : "H Label" , 
+          "value" : -5.1387322875705
+        }
+      ]
+    }
+  ]
+
+}
+
+</script>

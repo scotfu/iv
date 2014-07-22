@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<link href="../src/nv.d3.css" rel="stylesheet" type="text/css">
+
+<head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<style>
+
+body {
+  overflow-y:scroll;
+  margin: 0;
+  padding: 0;
+}
+
+svg {
+  overflow: hidden;
+}
+
+div {
+  border: 0;
+  margin: 0;
+}
+
+#test1 {
+  margin: 0;
+}
+
+#test1 svg {
+  height: auto;
+}
+
+</style>
+</head>
+
+
+
+<body>
+  <table id='filtertable'>
+    
+    <tr><td colspan = '8'><b>Filters:</b></td></tr>
+    <tr>
+      <td>Age Start</td>
+      <td>Age End</td>
+      <td>Gender</td>
+      <td>Education</td>
+      <td>Country</td>
+    </tr>
+    <tr>
+      <td><input type='text' id = 'age_start' value = 1 /></td>
+      <td><input type='text' id = 'age_end' value = 125 /></td>
+      
+      <td><select id='gender'>
+      <option>1</option>
+      <option>2</option>
+      </select></td>
+
+      <td><select id='education'>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>s
+      <option>4</option>
+      </select></td>
+      <td><input type='text' id = 'country' value = 1 /></td>
+      <td><input type='button' id = 'filter_button' value = 'Draw Chart' /></td>
+
+    </tr>
+  </table>
+
+<div id="offsetDiv">
+  <div id="test1" class='with-3d-shadow with-transitions'>
+    <svg></svg>
+  </div>
+</div>
+
+<script src="../lib/d3.v3.js"></script>
+<!--<script src="../lib/fisheye.js"></script>-->
+<script src="../nv.d3.js"></script>
+<script>
+
+$(document).ready(function(){
+    $('#filter_button').click(function(){
+      var ageStart = $('#age_start').val();
+      var ageEnd = $('#age_end').val();
+      var gender = $('#gender').val();
+      var education = $('#education').val();
+      var country = $('#country').val();
+      var page = 1;
+      var urlString = "start=" + ageStart + "&end=" + ageEnd + "&gender=" + gender + "&education="
+                      + education +  "&country=" + country + "&p=" + page;
+      console.log(urlString);
+      $.ajax({
+        type: "GET",
+        url: "http://54.82.120.1:5000/record/search/aggregation/?callback=abc&" + urlString,
+        dataType: "jsonp",
+        success: function(data) {
+          
+          drawGraph(data);
+
+        },
+        error : function(httpReq,status,exception){
+            alert(status+" "+exception);
+        }
+      });
+    });
+});
+
+function drawGraph(source) {
+  //Format A
+  var chart;
+  nv.addGraph(function() {
+    chart = nv.models.scatterChart()
+                  .showDistX(false)
+                  .showDistY(false)
+                  .useVoronoi(false)
+                  .color(d3.scale.category10().range())
+                  .transitionDuration(300)
+                  ;
+
+    chart.xAxis.tickFormat(d3.format('.02f'));
+    chart.yAxis.tickFormat(d3.format('.02f'));
+    chart.tooltipContent(function(key) {
+        return key ;
+    });
+
+    d3.select('#test1 svg')
+        .datum(getData(source))
+        .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    chart.dispatch.on('stateChange', function(e) { ('New State:', JSON.stringify(e)); });
+
+    return chart;
+  });  
+}
+
+
+
+function getData(source) { //# groups,# points per group
+  var data = [];
+
+  var objList = source["data"]["bitstrings"];
+  console.log(objList);
+
+  data.push({
+    key: "# of same response",
+    values: []
+  });
+
+  for (i = 0; i < objList.length; i++) {
+    var origin = objList[i]["bitstring"]["origin"];
+    var str = objList[i]["bitstring"]["nmds"];
+    data[0].values.push({
+      x: parseFloat(str.split(",")[0]),
+      y: parseFloat(str.split(",")[1]),
+      size: parseInt(objList[i]["count"]),
+      shape: 'circle'
+    });
+  }
+
+    //console.log(data);
+  console.log(data);
+  return data;
+}
+
+
+
+</script>
