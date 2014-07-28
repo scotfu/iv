@@ -267,6 +267,7 @@ def kmeans(request):
         start_age = request.GET.get('start',1)
         end_age = request.GET.get('end',120)
         gender = request.GET.get('gender','0')
+        algorithm = request.GET.get('algorithm','0')
         page = request.GET.get('p',1)
         kwargs = {}
         if gender == 'Male':
@@ -282,7 +283,7 @@ def kmeans(request):
         if country != '0':
             kwargs['record__country__in'] = country.split(",")
         selected_points = set(request.GET.getlist("point"))
-    selected_points = [map(float,BitString.objects.filter(bit_string=point)[0].nmds.split(',')) for point in selected_points]     
+    selected_points = [map(float,getattr(BitString.objects.filter(bit_string=point)[0],algorithm).split(',')) for point in selected_points]     
     result = BitString.objects.filter(record__age__range=(start_age,end_age),**kwargs).annotate(num=Count('record'))
 
 #    print avg
@@ -298,7 +299,7 @@ def kmeans(request):
     except:
         response_data['p'] = 1
         object_list = records.page(1)
-    points = [map(float,r.nmds.split(',')) for r in object_list]
+    points = [map(float,getattr(r,algorithm).split(',')) for r in object_list]
     cluster_matrix,centroids = KMeans(points,centroids=selected_points)
     for i in range(len(selected_points)):
         response_data['data']['group'+ str(i)] = []

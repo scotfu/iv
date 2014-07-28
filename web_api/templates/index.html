@@ -251,12 +251,20 @@
         </select>
   </div>
 
- <div class="form-group col-md-2">
+ <div class="form-group col-md-1">
     <label for="Group By">Group By</label>
      <select id="groupby" class="form-control">
       <option value="none">GroupBy</option>
       <option value="gender">Gender</option>
       <option value="edu">Education</option>
+      </select>
+  </div>
+ <div class="form-group col-md-1">
+    <label for="Algorithms">Algorithms</label>
+     <select id="algorithms" class="form-control">
+      <option value="nmds">NMDS</option>
+      <option value="pca">PCA</option>
+      <option value="mds">MDS</option>
       </select>
   </div>
 
@@ -376,7 +384,7 @@ $("#filter_button").click(function(){
 
 
 $(".k-button").click(function(){
-
+      var algorithm = $("#algorithms").val();
       var ageStart = $("#age_start").val();
       var ageEnd = $("#age_end").val();
       var gender = $("#gender").val();
@@ -385,8 +393,7 @@ $(".k-button").click(function(){
       var page = 1;
       var group = $("#groupby").val();
       var min = $("#minimum").val();
-      var urlString = "start=" + ageStart + "&end=" + ageEnd + "&gender=" + gender + "&education="
-                      + education +  "&country=" + country + "&p=" + page;
+      var urlString = "start=" + ageStart + "&end=" + ageEnd + "&gender=" + gender + "&education="+ education +  "&country=" + country + "&p=" + page+"&algorithm="+algorithm;
       var location = "left2"
       $('#k-points tr').each(function() {
         urlString += "&point=" +$(this).find("td").html();    
@@ -492,13 +499,15 @@ function addOne(d) {
 
 function getData(source, group, mincount) { //# groups,# points per group
   //console.log(source);
+                  var algorithm = $("#algorithms").val();
   if (group == "none") {  //no grouping
       var data = [{key: "# of same response",values: []}];
       var objList = source["data"]["bitstrings"];
-      
+
+      console.log(algorithm);
       for (i = 0; i < objList.length; i++) {
         var origin = objList[i]["bitstring"]["origin"];
-        var str = objList[i]["bitstring"]["nmds"];
+        var str = objList[i]["bitstring"][algorithm];
         var s = parseInt(objList[i]["count"]);
         if (s >= mincount) {
            data[0].values.push({
@@ -521,7 +530,7 @@ function getData(source, group, mincount) { //# groups,# points per group
     for (i = 0; i < maleArray.length; i++) {
        var s = parseInt(maleArray[i]["count"]);
        var origin = maleArray[i]["bitstring"]["origin"];
-       var str = maleArray[i]["bitstring"]["nmds"];
+       var str = maleArray[i]["bitstring"][algorithm];
        if (s >= mincount) {
           data[0].values.push({
             x: parseFloat(str.split(",")[0]),
@@ -536,7 +545,7 @@ function getData(source, group, mincount) { //# groups,# points per group
     for (i = 0; i < feArray.length; i++) {
        var s = parseInt(feArray[i]["count"]);
        var origin = feArray[i]["bitstring"]["origin"];
-       var str = feArray[i]["bitstring"]["nmds"];
+       var str = feArray[i]["bitstring"][algorithm];
        if (s >= mincount) {
           data[1].values.push({
             x: parseFloat(str.split(",")[0]),
@@ -558,7 +567,7 @@ function getData(source, group, mincount) { //# groups,# points per group
     for (i = 0; i < e1.length; i++) {
        var s = parseInt(e1[i]["count"]);
        var origin = e1[i]["bitstring"]["origin"];
-       var str = e1[i]["bitstring"]["nmds"];
+       var str = e1[i]["bitstring"][algorithm];
        if (s >= mincount) {
          data[0].values.push({
             x: parseFloat(str.split(",")[0]),
@@ -572,7 +581,7 @@ function getData(source, group, mincount) { //# groups,# points per group
 
     for (i = 0; i < e2.length; i++) {
        var origin = e2[i]["bitstring"]["origin"];
-       var str = e2[i]["bitstring"]["nmds"];
+       var str = e2[i]["bitstring"][algorithm];
        var s = parseInt(e2[i]["count"]);
        if (s >= mincount) {
          data[1].values.push({
@@ -587,7 +596,7 @@ function getData(source, group, mincount) { //# groups,# points per group
     }
     for (i = 0; i < e3.length; i++) {
        var origin = e3[i]["bitstring"]["origin"];
-       var str = e3[i]["bitstring"]["nmds"];
+       var str = e3[i]["bitstring"][algorithm];
        var s = parseInt(e3[i]["count"]);
        if (s >= mincount) {
           data[2].values.push({
@@ -602,7 +611,7 @@ function getData(source, group, mincount) { //# groups,# points per group
     }
     for (i = 0; i < e4.length; i++) {
        var origin = e4[i]["bitstring"]["origin"];
-       var str = e4[i]["bitstring"]["nmds"];
+       var str = e4[i]["bitstring"][algorithm];
        var s = parseInt(e4[i]["count"]);
        if (s >= mincount) {
           data[3].values.push({
@@ -627,7 +636,7 @@ function getData(source, group, mincount) { //# groups,# points per group
     for (j = 0; j < group_data.length; j++) {
        var s = parseInt(group_data[j]["count"]);
        var origin = group_data[j]["bitstring"]["origin"];
-       var str = group_data[j]["bitstring"]["nmds"];
+       var str = group_data[j]["bitstring"][algorithm];
        if (s >= mincount) {
          values.push({
             x: parseFloat(str.split(",")[0]),
