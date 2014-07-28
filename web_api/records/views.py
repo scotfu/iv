@@ -334,6 +334,7 @@ def kmeans_2(request):
         start_age = request.GET.get('start',1)
         end_age = request.GET.get('end',120)
         gender = request.GET.get('gender','0')
+        algorithm = request.GET.get('algorithm','0')
         page = request.GET.get('p',1)
         kwargs = {}
         if gender == 'Male':
@@ -350,14 +351,14 @@ def kmeans_2(request):
             kwargs['record__country__in'] = country.split(",")
         selected_points_b = set(request.GET.getlist("point"))
         second_selected_points_b = list(set(request.GET.getlist("2nd_point")))
-    selected_points = [map(float,BitString.objects.filter(bit_string=point)[0].nmds.split(',')) for point in selected_points_b]
-    second_selected_points = [map(float,BitString.objects.filter(bit_string=point)[0].nmds.split(',')) for point in second_selected_points_b]     
+    selected_points = [map(float,getattr(BitString.objects.filter(bit_string=point)[0],algorithm).split(',')) for point in selected_points_b]
+    second_selected_points = [map(float,getattr(BitString.objects.filter(bit_string=point)[0],algorithm).split(',')) for point in second_selected_points_b]     
     result = list(BitString.objects.filter(record__age__range=(start_age,end_age),**kwargs).annotate(num=Count('record')))
     response_data = {}
     response_data['result'] = 'success'
     response_data['data'] = {}
 #    response_data['centroids_sizes']=[]
-    points = [map(float,r.nmds.split(',')) for r in result]
+    points = [map(float,getattr(r,algorithm).split(',')) for r in result]
     cluster_matrix,centroids = KMeans(points,centroids=selected_points)
 
     
@@ -371,7 +372,7 @@ def kmeans_2(request):
         else:
             tmp_k += 1
     result = [result[i] for i in range(len(result)) if cluster_matrix[tmp_k][i]==1]            
-    points = [map(float,r.nmds.split(',')) for r in result]
+    points = [map(float,getattr(r,algorithm).split(',')) for r in result]
 
     cluster_matrix,centroids = KMeans(points,centroids=second_selected_points)
     
