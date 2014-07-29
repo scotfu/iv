@@ -499,7 +499,7 @@ function addOne(d) {
 
 function getData(source, group, mincount) { //# groups,# points per group
   //console.log(source);
-                  var algorithm = $("#algorithms").val();
+  var algorithm = $("#algorithms").val();
   if (group == "none") {  //no grouping
       var data = [{key: "# of same response",values: []}];
       var objList = source["data"]["bitstrings"];
@@ -667,7 +667,7 @@ function getData(source, group, mincount) { //# groups,# points per group
     }
 
 }
-  
+  if(algorithm=="nmds"){
   data.push({key:"bar",values:[
                     {x: parseFloat("0.745"),
                     y: parseFloat("0.775"),
@@ -676,13 +676,35 @@ function getData(source, group, mincount) { //# groups,# points per group
                     {x: parseFloat("-0.775"),
                     y: parseFloat("-0.725"),
                     size: 0,
-                    shape:"square",}
-
-
-]
+                    shape:"square",}]
+                    })                   
+  }else if(algorithm=="mds"){
+   data.push({key:"bar",values:[
+                    {x: parseFloat("2.365"),
+                    y: parseFloat("2.495"),
+                    size: 0,
+                    shape:"square",},
+                    {x: parseFloat("-2.50"),
+                    y: parseFloat("-2.40"),
+                    size: 0,
+                    shape:"square",}]
                     })                   
   
- console.log(data);
+}
+  else if(algorithm=="pca"){
+data.push({key:"bar",values:[
+                    {x: parseFloat("1.765"),
+                    y: parseFloat("1.285"),
+                    size: 0,
+                    shape:"square",},
+                    {x: parseFloat("-1.515"),
+                    y: parseFloat("-1.485"),
+                    size: 0,
+                    shape:"square",}]
+                    })                   
+  
+}
+ 
   return data;
 }
 
